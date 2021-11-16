@@ -177,7 +177,7 @@ APartClientRegistry >> findClientClassesWithTypesForPart: aPart [
 	matchesByType keysAndValuesDo: [:clientType :possibleClasses |
 		resultDict at: clientType put: (
 			possibleClasses size = 1
-				ifTrue: [possibleClasses any]
+				ifTrue: [possibleClasses anyOne]
 				ifFalse: 	[aPart chooseClientClassForOpeningType: clientType among: possibleClasses]
 		)
 	].

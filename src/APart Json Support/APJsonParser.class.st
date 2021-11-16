@@ -143,7 +143,7 @@ APJsonParser >> createTrue [
 APJsonParser >> error: aString [
 
 	^APJsonSyntaxError
-		raiseErrorString: aString , ' at position ' , stream position printString
+		signal: aString , ' at position ' , stream position printString
 				, ' before ' , (stream next: 30) printString
 ]
 

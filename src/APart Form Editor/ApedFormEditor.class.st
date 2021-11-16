@@ -502,7 +502,7 @@ ApedFormEditor >> initializeWindow: aWindowPresenter [
 
 |layoutTree|
 	super initializeWindow: aWindowPresenter.
-	aWindowPresenter title: (self pdmTranslate: 'Form editor').	
+	aWindowPresenter title: (self aPartTranslate: 'Form editor').	
 	self client onNotification: #changeWindowTitle do: [ :title | aWindowPresenter title: title ].
 	aWindowPresenter whenClosedDo: [ self partInterface closePart ].
 	aWindowPresenter bindKeyCombination: KeyboardKey F5 asKeyCombination toAction: [self partInterface part updatePreview].

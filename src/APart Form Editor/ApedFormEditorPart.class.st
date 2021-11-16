@@ -314,7 +314,7 @@ ApedFormEditorPart >> clipboardContent [
 	
 	input := Clipboard clipboardText.
 	
-	jsonObject := APJsonParser parse: input readStream handleSyntaxError: [:error| ^nil ].
+	jsonObject := [ APJsonParser parse: input readStream handleSyntaxError: [:error| ^nil ] ] on: Error do: [ nil ].
 	jsonObject ifNil: [^nil].
 	jsonObject isJsonObject ifFalse: [
 		"avoid simple JSON primitive objects like string and numbers"

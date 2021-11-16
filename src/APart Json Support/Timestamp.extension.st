@@ -55,7 +55,7 @@ Timestamp >> printTimeWithMillisecondsOn: s [
 ]
 
 { #category : #'*APart Json Support-conversion' }
-Timestamp class >> readFromPlainIso8601: aString [
+Timestamp classSide >> readFromPlainIso8601: aString [
 	"[self readFromPlainIso8601: '2015-11-23']
 	[self readFromPlainIso8601: '2015-11-23T09:10:55.937']
 	[self readFromPlainIso8601: '2015-11-23T09:10:55.937Z']
