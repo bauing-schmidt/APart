@@ -31,6 +31,7 @@ BaselineOfAPart >> baseline: spec [
 		spec package: 'APart Basic'.
 		spec package: 'APart BasicParts'.
 		spec package: 'APart Pharo'.
+		spec package: 'APart Patches'.
 		
 		spec package: 'APart PharoTests-Scopes'.
 		spec package: 'APart Localization'.

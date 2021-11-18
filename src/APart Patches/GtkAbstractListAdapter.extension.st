@@ -1,6 +1,6 @@
 Extension { #name : #GtkAbstractListAdapter }
 
-{ #category : #'*APart Pharo' }
+{ #category : #'*APart Patches' }
 GtkAbstractListAdapter >> refreshWidgetSelection [
 	| rowIndexes selection |
 
@@ -10,7 +10,7 @@ GtkAbstractListAdapter >> refreshWidgetSelection [
 	selection := self innerWidget selection.
 	(selection allSelected collect: #first) asArray = rowIndexes
 		ifTrue: [ ^ self ].
-	self resetSelection.
+
 	self 
 		disconnectSelectionEventsOf: self innerWidget 
 		during: [ 		
