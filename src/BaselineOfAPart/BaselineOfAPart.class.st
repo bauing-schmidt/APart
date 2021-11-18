@@ -28,6 +28,8 @@ BaselineOfAPart >> baseline: spec [
 		
 		self gettext: spec.
 		
+		spec baseline: 'UsefulExtensions' with: [ spec repository: 'github://bauing-schmidt/UsefulExtensions' ].	
+		
 		spec package: 'APart Basic'.
 		spec package: 'APart BasicParts'.
 		spec package: 'APart Pharo'.
