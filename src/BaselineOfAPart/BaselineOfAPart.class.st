@@ -32,15 +32,18 @@ BaselineOfAPart >> baseline: spec [
 		spec package: 'APart BasicParts'.
 		spec package: 'APart Pharo'.
 		spec package: 'APart Patches'.
-		
+	
 		spec package: 'APart PharoTests-Scopes'.
 		spec package: 'APart Localization'.
 		
 		spec package: 'APart Tests'.
 		spec package: 'APart Examples'.
 		spec package: 'APart PharoTests'.
-		spec package: 'APart Form Editor'.
 
+		spec package: 'APart Json Support'.
+		spec package: 'APart Json Tests'.
+
+		spec package: 'APart Form Editor'.
 	]
 ]
 
