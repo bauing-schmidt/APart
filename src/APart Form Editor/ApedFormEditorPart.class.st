@@ -634,7 +634,7 @@ ApedFormEditorPart >> iconNamed: aSymbol [
 		^ Form fromFileNamed: fileRef  ].
 	
 	self repositoryPathOrNil ifNotNil: [ :aPath |
-	( aPath / 'icons' asFileReference / 'icons-form' / (aSymbol, '.png') ) ifExists: [ :fileRef |
+	( aPath asFileReference / 'icons' / 'icons-form' / (aSymbol, '.png') ) ifExists: [ :fileRef |
 		^ Form fromFileNamed: fileRef  ] ].
 	
 	^ repository 
