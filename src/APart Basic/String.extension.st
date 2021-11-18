@@ -12,3 +12,10 @@ String >> prefixCamelCased: aPrefix [
 	s at: aPrefix size + 1 put: (s at: aPrefix size + 1) asUppercase.
 	^s asSymbol
 ]
+
+{ #category : #'*APart Basic' }
+String >> surroundedByDoubleQuotes [
+	"Answer the receiver with leading and trailing double quotes.  "
+
+	^ self surroundedBy: ($" asString)
+]

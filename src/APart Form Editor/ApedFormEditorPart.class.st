@@ -627,11 +627,19 @@ ApedFormEditorPart >> hasUnsavedChanges [
 
 { #category : #'initialize-release' }
 ApedFormEditorPart >> iconNamed: aSymbol [
+
+	| repository |
 	
 	( 'icons' asFileReference / 'icons-form' / (aSymbol, '.png') ) ifExists: [ :fileRef |
 		^ Form fromFileNamed: fileRef  ].
 	
-	^ super iconNamed: aSymbol.
+	self repositoryPathOrNil ifNotNil: [ :aPath |
+	( aPath / 'icons' asFileReference / 'icons-form' / (aSymbol, '.png') ) ifExists: [ :fileRef |
+		^ Form fromFileNamed: fileRef  ] ].
+	
+	^ repository 
+		ifNotNil: [ repository location ].
+	
 ]
 
 { #category : #'initialize-release' }
@@ -1453,6 +1461,19 @@ ApedFormEditorPart >> renameChildNodes: aChildCollection whereKey: aKey to: newN
 				] 
 			ifFalse:[self renameChildNodes: child children whereKey: aKey to: newName].
 		]
+]
+
+{ #category : #'initialize-release' }
+ApedFormEditorPart >> repositoryPathOrNil [ 
+
+	| repository |
+
+	repository := (IceRepository registry
+		detect: [ :e | e name = 'APart' ] ifNone: [ ^ nil ]). 
+		
+	repository location ifExists: [ ^ repository location ].
+	
+	^ nil
 ]
 
 { #category : #accessing }
