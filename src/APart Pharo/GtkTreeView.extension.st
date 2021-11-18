@@ -13,12 +13,6 @@ GtkTreeView >> connectRowCollapsed: aBlock [
 ]
 
 { #category : #'*APart Pharo' }
-GtkTreeView >> isMultipleSelection [ 
-	
-	^ self selection mode = GtkSelectionMode GTK_SELECTION_MULTIPLE
-]
-
-{ #category : #'*APart Pharo' }
 GtkTreeView >> isRowExpanded: path [
 
 	^ self ffiCall: #(gboolean gtk_tree_view_row_expanded  (self, GtkTreePath *path))
