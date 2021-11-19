@@ -42,8 +42,13 @@ APartGetTextExporter >> appendTranslations: domains [
 { #category : #exporting }
 APartGetTextExporter >> classes [ 
 
+	| aPartBaselineClass | 
+	
+	aPartBaselineClass := (Smalltalk at: #BaselineOfAPart ifAbsent: [ Smalltalk at: #BaselineOfAPartForDocumaps ]).
+
 	^ (BaselineOfAPartCore allPackageNames flatCollect: [ :each | each asPackage classes ]),
-	  (BaselineOfAPart allPackageNames flatCollect: [ :each | each asPackage classes ])
+	  (aPartBaselineClass allPackageNames flatCollect: [ :each | each asPackage classes ]).
+
 ]
 
 { #category : #exporting }
