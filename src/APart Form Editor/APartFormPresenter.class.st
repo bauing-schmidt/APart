@@ -60,7 +60,7 @@ APartFormPresenter >> formPart [
 APartFormPresenter >> initializeWindow: aWindowPresenter [
 
 	super initializeWindow: aWindowPresenter.
-	aWindowPresenter title: (self pdmTranslate: 'Editor').
+	aWindowPresenter title: (self aPartTranslate: 'Editor').
 
 	aWindowPresenter initialExtent: 800@600.
 ]

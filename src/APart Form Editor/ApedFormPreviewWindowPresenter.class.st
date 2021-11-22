@@ -33,7 +33,7 @@ ApedFormPreviewWindowPresenter class >> matchingPartClass [
 ApedFormPreviewWindowPresenter >> initializeWindow: aWindowPresenter [
 
 	super initializeWindow: aWindowPresenter.
-	aWindowPresenter title: (self pdmTranslate: 'Form preview').
+	aWindowPresenter title: (self aPartTranslate: 'Form preview').
 
 	aWindowPresenter initialExtent: 800@600.
 	
