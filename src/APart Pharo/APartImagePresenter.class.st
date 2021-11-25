@@ -43,8 +43,10 @@ APartImagePresenter >> setValueAdaptor: aspectObject aspect: anAspect parent: aP
 { #category : #initialization }
 APartImagePresenter >> update: anAspectSymbol with: aParameter from: aSender [
 
+	aSender value
+		ifNil: [ ^ self ].
 	self ignoreUpdatesWhile: [ 
 	anAspectSymbol == #value ifTrue: [ 
-		(self rawValueHolderNamed: #image) value: (aSender value ifNil: [''])] ].
+		(self rawValueHolderNamed: #image) value: aSender value] ].
 
 ]

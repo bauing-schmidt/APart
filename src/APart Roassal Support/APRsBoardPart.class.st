@@ -22,11 +22,6 @@ APRsBoardPart class >> interfaceClass [
 	^APRsPartInterface
 ]
 
-{ #category : #'API events' }
-APRsBoardPart >> activateItem: appItem at: position aspect: targetAspect [
-	"Default: no action"
-]
-
 { #category : #adding }
 APRsBoardPart >> addPrototypeOf: aPrototypeClass from: appItem [
 
@@ -65,7 +60,11 @@ APRsBoardPart >> board [
 { #category : #private }
 APRsBoardPart >> boardKeyMappings [
 
-	^ Array new
+	^ { 
+		APRsEventMapping mapKey: #RETURN to: #primaryActivateItem .
+		APRsEventMapping mapOptionKey: #RETURN to: #secondaryActivateItem . 
+	}
+					
 ]
 
 { #category : #private }
@@ -162,14 +161,11 @@ APRsBoardPart >> encompassingRectangle [
 	"^ self coverageCalculator encompassingRectangle"
 ]
 
-{ #category : #'API events' }
-APRsBoardPart >> executePrimaryPointToActionFor: appItem at: pos targetAspect: targetAspect [
-	"Default: no action"
-]
-
-{ #category : #'API events' }
-APRsBoardPart >> executeSecondaryPointToActionFor: appItem at: pos targetAspect: targetAspect [
-	"Default: no action"
+{ #category : #'API selection' }
+APRsBoardPart >> focusApplicationItem [
+	"Default, normally overwritten in subclasses"
+	
+	^ nil
 ]
 
 { #category : #accessing }
@@ -196,7 +192,7 @@ APRsBoardPart >> initializeDefaultDispatcher [
 	
 	| d |
 	d := self defaultDispatcherClass onPart: self.
-	d addKeyMappings: self boardKeyMappings.
+	d addNamedMappings: self boardKeyMappings.
 	partInterface registerDispatcher: d
 ]
 
@@ -290,6 +286,16 @@ APRsBoardPart >> pdmStandardNames [
 	^self rootSystem pdmStandardNames
 ]
 
+{ #category : #'API events' }
+APRsBoardPart >> primaryActivateItem: appItem at: position aspect: targetAspect [
+	"Default: no action"
+]
+
+{ #category : #'API events' }
+APRsBoardPart >> primaryPointTo: appItem at: pos targetAspect: targetAspect [
+	"Default: no action"
+]
+
 { #category : #private }
 APRsBoardPart >> privateZoomTo: zoomFactor [
 
@@ -369,6 +375,16 @@ APRsBoardPart >> scrollUp [
 	self triggerCanvasUpdate.
 ]
 
+{ #category : #'API events' }
+APRsBoardPart >> secondaryActivateItem: appItem at: position aspect: targetAspect [
+	"Default: no action"
+]
+
+{ #category : #'API events' }
+APRsBoardPart >> secondaryPointTo: appItem at: pos targetAspect: targetAspect [
+	"Default: no action"
+]
+
 { #category : #private }
 APRsBoardPart >> setCameraTopLeftPosition: aPoint [ 
 
@@ -382,12 +398,6 @@ APRsBoardPart >> setCanvasFocus: aBoolean [
 	self triggerCanvasUpdate.
 	
 	^ true
-]
-
-{ #category : #private }
-APRsBoardPart >> singleSelection [ 
-	self subclassResponsibility 
-	
 ]
 
 { #category : #accessing }

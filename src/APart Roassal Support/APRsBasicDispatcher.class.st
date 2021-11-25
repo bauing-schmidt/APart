@@ -8,8 +8,9 @@ Class {
 		'part',
 		'target',
 		'primaryIsLeft',
-		'keyMappings',
-		'selectorsByEventName'
+		'selectorsByEventName',
+		'namedEventMappings',
+		'leftClickTogglingModifier'
 	],
 	#category : #'APart Roassal Support-Support'
 }
@@ -24,7 +25,12 @@ APRsBasicDispatcher class >> onPart: aPart [
 ]
 
 { #category : #API }
-APRsBasicDispatcher >> addKeyMappings: assocList [
+APRsBasicDispatcher >> addNamedMappings: mappingsColl [
+
+	mappingsColl do: [ :m |
+		(namedEventMappings at: m keyName ifAbsentPut: [ Set new ]) add: m.
+		m receiver ifNil: [ m receiver: self]. 
+	]
 ]
 
 { #category : #'API events' }
@@ -45,24 +51,6 @@ APRsBasicDispatcher >> eventSelectorForName: aRsEventName [
 	^ selectorsByEventName at: aRsEventName ifAbsent: [ ]
 ]
 
-{ #category : #'API dispatched' }
-APRsBasicDispatcher >> executePrimaryPointToActionFor: appItem at: pos targetAspect: targetAspect [
-	"Extracted here on basic dispatcher, as this call might be reused by several events, or redefined in subclass.
-	Mind that the call has to either answer a MessageSend or nil"
-	
-	self target executePrimaryPointToActionFor: appItem at: pos targetAspect: targetAspect.
-	^ nil
-]
-
-{ #category : #'API dispatched' }
-APRsBasicDispatcher >> executeSecondaryPointToActionFor: appItem at: pos targetAspect: targetAspect [
-	"Extracted here on basic dispatcher, as this call might be reused by several events, or redefined in subclass
-	Mind that the call has to either answer a MessageSend or nil"
-	
-	self target executeSecondaryPointToActionFor: appItem at: pos targetAspect: targetAspect.
-	^ nil
-]
-
 { #category : #'API events' }
 APRsBasicDispatcher >> handleRsEvent: evt [
 	"First, we dispatch the incoming event to our own implementation. If this one does not return nil,
@@ -70,7 +58,7 @@ APRsBasicDispatcher >> handleRsEvent: evt [
 	
 	| sel msgSend |
 	sel := self eventSelectorForName: evt class name.
-	sel = #onKeyDown: ifTrue: [self notNil].
+	sel = #onKeyUp: ifTrue: [self notNil].
 	msgSend := MessageSend receiver: self selector: sel argument: evt.
 	msgSend value ifNotNil: [ :dispatchedSend | dispatchedSend value]
 	
@@ -81,14 +69,38 @@ APRsBasicDispatcher >> initialize [
 
 	super initialize.
 	selectorsByEventName := self setupSelectorsByEventName.
-	keyMappings := Dictionary new.
+	namedEventMappings := Dictionary new.
 	primaryIsLeft := true.
+	leftClickTogglingModifier := #optionKeyPressed.
+]
+
+{ #category : #private }
+APRsBasicDispatcher >> isLeftClickTogglingModifierInEvent: evt [
+
+	^ leftClickTogglingModifier
+		ifNotNil: [ :lctm | lctm cull: evt ]
+		ifNil: 	[ false ]
 ]
 
 { #category : #accessing }
-APRsBasicDispatcher >> keyMappings [
+APRsBasicDispatcher >> leftClickTogglingModifier [
 
-	^ keyMappings
+	^ leftClickTogglingModifier
+]
+
+{ #category : #accessing }
+APRsBasicDispatcher >> leftClickTogglingModifier: anObject [
+
+	leftClickTogglingModifier := anObject
+]
+
+{ #category : #private }
+APRsBasicDispatcher >> mappingForNamedEvent: evt [
+
+	^ namedEventMappings at: evt keyName ifPresent: [ :set |
+		set detect: [ :km | km matchesModifiersIn: evt] ifNone: [ ]
+	]
+		
 ]
 
 { #category : #'API events' }
@@ -101,6 +113,9 @@ APRsBasicDispatcher >> onKeyDown: evt [
 APRsBasicDispatcher >> onKeyUp: evt [
 
 	evt keyName traceCrAs: evt keyValue asString.
+	(self mappingForNamedEvent: evt) ifNotNil: [ :evtMapping |
+		evtMapping value
+	].
 	^ nil
 
 ]
@@ -117,8 +132,8 @@ APRsBasicDispatcher >> onMouseClick: evt isPrimary: isPrimaryClick [
 		(appItem shapeAt: pos) ifNotNil: [:targetShape | targetShape aspect]
 	].
 	^ isPrimaryClick 
-		ifTrue: [ self executePrimaryPointToActionFor: appItem at: pos targetAspect: targetAspect ]
-		ifFalse: [ self executeSecondaryPointToActionFor: appItem at: pos targetAspect: targetAspect ]
+		ifTrue: [ self primaryPointTo: appItem at: pos targetAspect: targetAspect ]
+		ifFalse: [ self secondaryPointTo: appItem at: pos targetAspect: targetAspect ]
 ]
 
 { #category : #private }
@@ -227,10 +242,23 @@ APRsBasicDispatcher >> part: anObject [
 ]
 
 { #category : #'API dispatched' }
+APRsBasicDispatcher >> primaryActivateItem [
+
+	self primaryActivateItem: nil at: nil aspect: nil
+]
+
+{ #category : #'API dispatched' }
 APRsBasicDispatcher >> primaryActivateItem: appItem at: position aspect: targetAspect [
 	"Extracted here on basic dispatcher, as this call might be reused by several events, or redefined in subclass"
 	
-	self target activateItem: appItem at: position aspect: targetAspect.
+	| itemToUse |
+	itemToUse := (appItem isNil and: [position isNil]) ifTrue: [
+		"Means: activation is called by keyboard event. Thus we need something like a selection"
+		self target focusApplicationItem
+	] ifFalse: [
+		appItem ifNil: [ ^ nil].
+	].
+	self target primaryActivateItem: itemToUse at: position aspect: targetAspect.
 	^ nil
 ]
 
@@ -247,6 +275,15 @@ APRsBasicDispatcher >> primaryIsLeft: anObject [
 ]
 
 { #category : #'API dispatched' }
+APRsBasicDispatcher >> primaryPointTo: appItem at: pos targetAspect: targetAspect [
+	"Extracted here on basic dispatcher, as this call might be reused by several events, or redefined in subclass.
+	Mind that, on this level, the call has to either answer a MessageSend (for further activity to be dispatched) or nil"
+	
+	self target primaryPointTo: appItem at: pos targetAspect: targetAspect.
+	^ nil
+]
+
+{ #category : #'API dispatched' }
 APRsBasicDispatcher >> scrollDown [
 
 	self target scrollDown
@@ -259,10 +296,24 @@ APRsBasicDispatcher >> scrollUp [
 ]
 
 { #category : #'API dispatched' }
-APRsBasicDispatcher >> secondaryActivateItem: appItem at: position aspect: targetAspect [
-	"No default action"
+APRsBasicDispatcher >> secondaryActivateItem [
 
-	^nil
+	self secondaryActivateItem: nil at: nil aspect: nil
+]
+
+{ #category : #'API dispatched' }
+APRsBasicDispatcher >> secondaryActivateItem: appItem at: position aspect: targetAspect [
+
+	^ part secondaryActivateItem: appItem at: position aspect: targetAspect
+]
+
+{ #category : #'API dispatched' }
+APRsBasicDispatcher >> secondaryPointTo: appItem at: pos targetAspect: targetAspect [
+	"Extracted here on basic dispatcher, as this call might be reused by several events, or redefined in subclass
+	Mind that the call has to either answer a MessageSend or nil"
+	
+	self target secondaryPointTo: appItem at: pos targetAspect: targetAspect.
+	^ nil
 ]
 
 { #category : #initialization }
@@ -292,10 +343,10 @@ APRsBasicDispatcher >> setupSelectorsByEventName [
 
 { #category : #private }
 APRsBasicDispatcher >> shallConvertLeftToRightClickForEvent: evt [
-	"Override in subclass, if e.g. evt has modifier key equivalent to simulate a right click.
-	Default is inversion of primaryIsLeft, which will keep left click as left click as long as primaryIsLeft is true"
+	"May be overridden in subclass.
+	Default is inversion of primaryIsLeft, which will keep left click as left click as long as primaryIsLeft is true and no general modifier toggle is defined."
 	
-	^self primaryIsLeft not 
+	^ self primaryIsLeft not or: [ self isLeftClickTogglingModifierInEvent: evt ]
 ]
 
 { #category : #private }

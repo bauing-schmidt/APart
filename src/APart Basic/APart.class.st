@@ -848,6 +848,12 @@ APart >> interfaceClass [
 	^self class interfaceClass
 ]
 
+{ #category : #API }
+APart >> isActionExecutable: actionKey [ 
+
+	^ partInterface isActionExecutable: actionKey ifAbsent: [ false ]
+]
+
 { #category : #'API testing' }
 APart >> isActive [
 
