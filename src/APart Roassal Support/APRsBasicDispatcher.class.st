@@ -95,9 +95,18 @@ APRsBasicDispatcher >> leftClickTogglingModifier: anObject [
 ]
 
 { #category : #private }
-APRsBasicDispatcher >> mappingForNamedEvent: evt [
+APRsBasicDispatcher >> mappingForKeyEvent: evt [
 
 	^ namedEventMappings at: evt keyName ifPresent: [ :set |
+		set detect: [ :km | km matchesModifiersIn: evt] ifNone: [ ]
+	]
+		
+]
+
+{ #category : #private }
+APRsBasicDispatcher >> mappingForMouseEventNamed: evName event: evt [
+
+	^ namedEventMappings at: evName ifPresent: [ :set |
 		set detect: [ :km | km matchesModifiersIn: evt] ifNone: [ ]
 	]
 		
@@ -113,7 +122,7 @@ APRsBasicDispatcher >> onKeyDown: evt [
 APRsBasicDispatcher >> onKeyUp: evt [
 
 	evt keyName traceCrAs: evt keyValue asString.
-	(self mappingForNamedEvent: evt) ifNotNil: [ :evtMapping |
+	(self mappingForKeyEvent: evt) ifNotNil: [ :evtMapping |
 		evtMapping value
 	].
 	^ nil
@@ -131,9 +140,12 @@ APRsBasicDispatcher >> onMouseClick: evt isPrimary: isPrimaryClick [
 	targetAspect := appItem ifNotNil: [ 
 		(appItem shapeAt: pos) ifNotNil: [:targetShape | targetShape aspect]
 	].
-	^ isPrimaryClick 
-		ifTrue: [ self primaryPointTo: appItem at: pos targetAspect: targetAspect ]
-		ifFalse: [ self secondaryPointTo: appItem at: pos targetAspect: targetAspect ]
+	^ (self mappingForMouseEventNamed: (isPrimaryClick 
+													ifTrue: [#primarySingleClick]
+													ifFalse: [ #secondarySingleClick ]) 
+				event: evt) ifNotNil: [ :mapping |	
+		mapping value: appItem value: pos value: targetAspect .
+	]
 ]
 
 { #category : #private }
@@ -280,6 +292,15 @@ APRsBasicDispatcher >> primaryPointTo: appItem at: pos targetAspect: targetAspec
 	Mind that, on this level, the call has to either answer a MessageSend (for further activity to be dispatched) or nil"
 	
 	self target primaryPointTo: appItem at: pos targetAspect: targetAspect.
+	^ nil
+]
+
+{ #category : #'API dispatched' }
+APRsBasicDispatcher >> primaryTogglePointTo: appItem at: pos targetAspect: targetAspect [
+	"Extracted here on basic dispatcher, as this call might be reused by several events, or redefined in subclass.
+	Mind that, on this level, the call has to either answer a MessageSend (for further activity to be dispatched) or nil"
+	
+	self target primaryTogglePointTo: appItem at: pos targetAspect: targetAspect.
 	^ nil
 ]
 

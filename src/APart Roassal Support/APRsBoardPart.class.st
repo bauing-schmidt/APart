@@ -11,7 +11,8 @@ Class {
 		'zoom',
 		'coverageCalculator',
 		'knownRoots',
-		'locale'
+		'locale',
+		'arrangingContext'
 	],
 	#category : #'APart Roassal Support-Parts'
 }
@@ -40,6 +41,12 @@ APRsBoardPart >> adjustCanvasCameraAfterOpen [
 ]
 
 { #category : #'initialize-release' }
+APRsBoardPart >> arrangingContext [ 
+
+	^ arrangingContext
+]
+
+{ #category : #'initialize-release' }
 APRsBoardPart >> assignShapeElementOn: aShapePart to: trachelShape [
 
 	trachelShape model ifNil: [ trachelShape model: aShapePart ]
@@ -63,6 +70,17 @@ APRsBoardPart >> boardKeyMappings [
 	^ { 
 		APRsEventMapping mapKey: #RETURN to: #primaryActivateItem .
 		APRsEventMapping mapOptionKey: #RETURN to: #secondaryActivateItem . 
+	}
+					
+]
+
+{ #category : #private }
+APRsBoardPart >> boardMouseMappings [
+
+	^ { 
+		APRsEventMapping mapClick: #primarySingleClick to: #primaryPointTo:at:targetAspect: .	
+		APRsEventMapping mapControlClick: #primarySingleClick to: #primaryTogglePointTo:at:targetAspect: .	
+		APRsEventMapping mapClick: #secondarySingleClick to: #secondaryPointTo:at:targetAspect: .	
 	}
 					
 ]
@@ -161,6 +179,10 @@ APRsBoardPart >> encompassingRectangle [
 	"^ self coverageCalculator encompassingRectangle"
 ]
 
+{ #category : #private }
+APRsBoardPart >> finishTemporaryUserTasks [
+]
+
 { #category : #'API selection' }
 APRsBoardPart >> focusApplicationItem [
 	"Default, normally overwritten in subclasses"
@@ -193,6 +215,7 @@ APRsBoardPart >> initializeDefaultDispatcher [
 	| d |
 	d := self defaultDispatcherClass onPart: self.
 	d addNamedMappings: self boardKeyMappings.
+	d addNamedMappings: self boardMouseMappings.
 	partInterface registerDispatcher: d
 ]
 
@@ -218,6 +241,7 @@ APRsBoardPart >> initializeValues [
 	coverageCalculator := APRsCoverageCalculator new.
 	zoom := 1.
 	self initializeContextMenuPart.
+	arrangingContext := DrsArrangingContext new.
 
 ]
 

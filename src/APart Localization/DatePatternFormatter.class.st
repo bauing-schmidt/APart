@@ -108,7 +108,7 @@ DatePatternFormatter >> initializeCalendarFields [
 		at: 5 put: #HOUR_OF_DAY -> [ :aDateAndTime | aDateAndTime hour24];
 		at: 6 put: #MINUTE -> [ :aDateAndTime | aDateAndTime minute];
 		at: 7 put: #SECOND -> [ :aDateAndTime | aDateAndTime second];
-		at: 8 put: #MILLISECOND -> [ :aDateAndTime | aDateAndTime milliSeconds];
+		at: 8 put: #MILLISECOND -> [ :aDateAndTime | aDateAndTime milliseconds];
 		at: 9 put: #DAY_OF_WEEK -> [ :aDateAndTime | aDateAndTime dayOfWeek];
 		at: 10 put: #DAY_OF_YEAR -> [ :aDateAndTime | aDateAndTime dayOfYear];
 		at: 11 put: #DAY_OF_WEEK_IN_MONTH -> [ :aDateAndTime | aDateAndTime dayOfWeekInMonth];

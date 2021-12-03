@@ -19,10 +19,19 @@ APTPartWithItemSelection >> deselectAllItems [
 { #category : #'API selection' }
 APTPartWithItemSelection >> deselectAllItemsDoing: doBlock [
 
-	selectedItems do: [:item | 
+	selectedItems copy do: [:item | 
 		self deselectItem: item.
 		doBlock value: item
 	]
+]
+
+{ #category : #'API selection' }
+APTPartWithItemSelection >> deselectAllItemsDoing: doBlock without: anItem [
+
+	selectedItems copy do: [:item | 
+		self deselectItem: item.
+		doBlock value: item
+	] without: anItem
 ]
 
 { #category : #'API selection' }
@@ -67,8 +76,11 @@ APTPartWithItemSelection >> initializeSelection [
 { #category : #'API selection' }
 APTPartWithItemSelection >> moveSelectionTo: appItem deselectDoing: deselectDoBlock selectDoing: selectDoBlock [
 
-	(appItem isNil or: [appItem isSelected])
-		ifTrue: [ ^ nil ].
+	appItem ifNil:[^nil].
+	appItem isSelected
+		ifTrue: [ self deselectAllItemsDoing: deselectDoBlock without: appItem.	 							
+			^ appItem 
+		].
 	self
 		deselectAllItemsDoing: deselectDoBlock;
 	 	selectItem: appItem doing: selectDoBlock.
@@ -141,4 +153,14 @@ APTPartWithItemSelection >> selectionCollection [
 APTPartWithItemSelection >> singleSelection [
 
 	^self hasSingleSelection ifTrue: [selectedItems anyOne]
+]
+
+{ #category : #'API selection' }
+APTPartWithItemSelection >> toggleSelectionOf: appItem toggleDoing: toggleDoBlock [ 
+
+	appItem ifNil: [ ^ nil ].		
+	appItem isSelected 
+		ifTrue: [self deselectItem: appItem doing: toggleDoBlock]
+		ifFalse:[self selectItem: appItem doing: toggleDoBlock].
+	^ appItem
 ]

@@ -16,6 +16,27 @@ Class {
 }
 
 { #category : #'instance creation' }
+APRsEventMapping class >> mapClick: aClickName to: aSelfSelector [
+	"As we do not set a receiver, it is left as nil, which later is replaced by the dispatcher instance"
+	
+	^self new
+		keyName: aClickName;
+		selector: aSelfSelector;
+		yourself
+]
+
+{ #category : #'instance creation' }
+APRsEventMapping class >> mapControlClick: aClickName to: aSelfSelector [
+	"As we do not set a receiver, it is left as nil, which later is replaced by the dispatcher instance"
+	
+	^self new
+		keyName: aClickName;
+		controlKeyPressed: true;
+		selector: aSelfSelector;
+		yourself
+]
+
+{ #category : #'instance creation' }
 APRsEventMapping class >> mapControlKey: aKeyName to: aSelfSelector [
 	"As we do not set a receiver, it is left as nil, which later is replaced by the dispatcher instance"
 	

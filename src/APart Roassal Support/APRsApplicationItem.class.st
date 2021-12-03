@@ -92,12 +92,6 @@ APRsApplicationItem >> onSelectionBlock [
 ]
 
 { #category : #API }
-APRsApplicationItem >> parentItem [
-
-	self subclassResponsibility
-]
-
-{ #category : #API }
 APRsApplicationItem >> preInitShapePart: p with: extraPreInitBlock [
 	p joinAppItem: self.
 	 extraPreInitBlock value: p 
