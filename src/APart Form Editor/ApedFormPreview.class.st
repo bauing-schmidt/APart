@@ -49,6 +49,14 @@ ApedFormPreview >> buildPresenters [
 ]
 
 { #category : #'as yet unclassified' }
+ApedFormPreview >> buildWithSelector: aSelector [
+
+	"ignore aSelector"
+
+	^ self buildWithLayout: (self layout)
+]
+
+{ #category : #'as yet unclassified' }
 ApedFormPreview >> createPresenters [ 
 
 	"not yet"
@@ -95,6 +103,13 @@ ApedFormPreview >> layout [
 ApedFormPreview >> layouts [
 
 	^ self formPart layoutTree treeModel root children collect: #value
+]
+
+{ #category : #'as yet unclassified' }
+ApedFormPreview >> notifyPartAboutMyself [
+
+	self hasPartInterface ifTrue: [ 
+		self partInterface part presenterBuilt: self ]
 ]
 
 { #category : #'as yet unclassified' }

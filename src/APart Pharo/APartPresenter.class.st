@@ -376,6 +376,8 @@ APartPresenter >> defaultKeyboardFocus [
 
 	| aSubPart |
 	
+	self hasPartInterface ifFalse: [ ^ nil ].
+	
 	aSubPart := self partInterface part defaultKeyboardFocus.
 		
 	^ self additionalSubpresentersMap detect: [ :each | 
@@ -447,7 +449,7 @@ APartPresenter >> handleDefaultAnnouncedState: anAnnouncedState [
 { #category : #accessing }
 APartPresenter >> hasPartInterface [
 
-	^ true
+	^ true and: [ self partInterface notNil  ]
 ]
 
 { #category : #help }

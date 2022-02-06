@@ -44,6 +44,15 @@ ApedFormPreviewWindowPresenter >> initializeWindow: aWindowPresenter [
 ]
 
 { #category : #'interface opening' }
+ApedFormPreviewWindowPresenter >> openWithSpec: aSelector [
+
+	"ignore the selector"
+
+	application isNil ifTrue: [ self application: client specApplication ].
+	^ super openWithLayout: (self layout)
+]
+
+{ #category : #'interface opening' }
 ApedFormPreviewWindowPresenter >> partSwitched: anAnnouncement from: aSwitchingInterface [
 
 	anAnnouncement containerId = #previewSwitchingPart ifTrue: [
