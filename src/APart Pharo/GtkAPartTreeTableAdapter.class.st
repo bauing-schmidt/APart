@@ -1,7 +1,11 @@
-Extension { #name : #GtkTreeTableAdapter }
+Class {
+	#name : #GtkAPartTreeTableAdapter,
+	#superclass : #GtkTreeTableAdapter,
+	#category : #'APart Pharo'
+}
 
-{ #category : #'*APart Patches' }
-GtkTreeTableAdapter >> connectToGtkSignals: gtkWidget [
+{ #category : #building }
+GtkAPartTreeTableAdapter >> connectToGtkSignals: gtkWidget [
 	
 	gtkWidget connectSelectionChanged: [ 
 		self backendUpdatingDo: [ 
@@ -17,8 +21,8 @@ GtkTreeTableAdapter >> connectToGtkSignals: gtkWidget [
 	gtkWidget connectRowCollapsed: [ :iter :path | (self rootNode childAt: path) opened: false ]
 ]
 
-{ #category : #'*APart Patches' }
-GtkTreeTableAdapter >> doRecreateStore: gtkTreeView [
+{ #category : #private }
+GtkAPartTreeTableAdapter >> doRecreateStore: gtkTreeView [
 	
 	gtkTreeView model: (self newTreeStoreFrom: self items).
 
@@ -29,4 +33,29 @@ GtkTreeTableAdapter >> doRecreateStore: gtkTreeView [
 	self items ifNotEmpty: [
 		self recalculatePaths: self rootNode].
 	self expandOpenNodes: self items.
+]
+
+{ #category : #releasing }
+GtkAPartTreeTableAdapter >> unsubscribe [
+
+	| aSelection |
+
+	self unsubscirbeSelectionMode.
+	aSelection := self presenter selection observablePropertyNamed: #selection.
+	aSelection
+		unsubscribe: self";
+		unsubscribeOuterContextReceiver: self". 
+	(self presenter observablePropertyNamed: #roots) unsubscribe: self.
+	(self presenter observablePropertyNamed: #showColumnHeaders) 
+		unsubscribe: self.
+	super unsubscribe.
+	
+	widget := nil.
+]
+
+{ #category : #updating }
+GtkAPartTreeTableAdapter >> updatePresenterSelection [
+	
+	self innerWidgetDo: [ :w |
+		self rowsSelected: w allSelected ]
 ]

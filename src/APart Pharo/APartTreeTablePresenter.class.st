@@ -6,6 +6,12 @@ Class {
 	#category : #'APart Pharo'
 }
 
+{ #category : #specs }
+APartTreeTablePresenter class >> adapterName [
+
+	^ #APartTreeTableAdapter
+]
+
 { #category : #accessing }
 APartTreeTablePresenter >> defaultModel [
 	self notYetImplemented
