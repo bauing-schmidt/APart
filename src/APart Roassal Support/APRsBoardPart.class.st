@@ -12,7 +12,8 @@ Class {
 		'coverageCalculator',
 		'knownRoots',
 		'locale',
-		'arrangingContext'
+		'arrangingContext',
+		'state'
 	],
 	#category : #'APart Roassal Support-Parts'
 }
@@ -243,6 +244,7 @@ APRsBoardPart >> initializeValues [
 	self initializeContextMenuPart.
 	arrangingContext := DrsArrangingContext new.
 
+	state := #invisible.
 ]
 
 { #category : #'initialize-release' }
@@ -298,6 +300,24 @@ APRsBoardPart >> mainCanvasKey [
 	^#mainCanvas
 ]
 
+{ #category : #'as yet unclassified' }
+APRsBoardPart >> makeClosed [
+
+	state := #closed
+]
+
+{ #category : #'as yet unclassified' }
+APRsBoardPart >> makeInvisible [
+
+	state := #invisible
+]
+
+{ #category : #'as yet unclassified' }
+APRsBoardPart >> makeVisible [ 
+
+	state := #visible
+]
+
 { #category : #utilities }
 APRsBoardPart >> pdmProjectDictionary [
 
@@ -308,6 +328,13 @@ APRsBoardPart >> pdmProjectDictionary [
 APRsBoardPart >> pdmStandardNames [
 
 	^self rootSystem pdmStandardNames
+]
+
+{ #category : #updating }
+APRsBoardPart >> prepareForRemoval [
+
+	super prepareForRemoval.
+	state := #closed.
 ]
 
 { #category : #'API events' }

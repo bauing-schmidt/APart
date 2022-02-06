@@ -133,14 +133,14 @@ APartPresenter class >> openModalOnPart: aPromptPart parentClient: aParentClient
 { #category : #'instance creation' }
 APartPresenter class >> openOn: anInstance [
 
-	^ self openOn: anInstance withSpec: #defaultSpec
+	^ self openOn: anInstance withSpec: #defaultLayout
 ]
 
 { #category : #'instance creation' }
 APartPresenter class >> openOn: anInstance in: anApplication [
 	
 	anInstance application: anApplication.
-	^ self openOn: anInstance withSpec: #defaultSpec
+	^ self openOn: anInstance withSpec: #defaultLayout
 ]
 
 { #category : #'as yet unclassified' }
@@ -385,7 +385,7 @@ APartPresenter >> defaultKeyboardFocus [
 { #category : #'as yet unclassified' }
 APartPresenter >> defaultLayout [ 
 
-	^ self class defaultSpec
+	^ self class defaultLayout
 ]
 
 { #category : #accessing }
@@ -785,9 +785,9 @@ APartPresenter >> openMenu: aMenu itemValueDo: aOneArgBlock atPosition: aPoint [
 
 { #category : #showing }
 APartPresenter >> openWithSpec: aSelector [
- 	application isNil ifTrue: [ self application: client specApplication ].
-	^super openWithSpec: aSelector
 
+	application isNil ifTrue: [ self application: client specApplication ].
+	^ super openWithLayout: (self perform: aSelector)
 ]
 
 { #category : #binding }

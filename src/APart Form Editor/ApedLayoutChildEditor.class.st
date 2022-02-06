@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #specs }
-ApedLayoutChildEditor class >> defaultSpec [
+ApedLayoutChildEditor class >> defaultLayout [
 	<spec>
 	
 	| grid frame | 

@@ -12,7 +12,7 @@ APxSubCanvasPartSwitchExample class >> associatedPresentersFor: aPresenter [
 ]
 
 { #category : #'*APart Examples-Pharo' }
-APxSubCanvasPartSwitchExample class >> defaultSpec [
+APxSubCanvasPartSwitchExample class >> defaultLayout [
 	<spec>
 		
 	^  SpBoxLayout newVertical

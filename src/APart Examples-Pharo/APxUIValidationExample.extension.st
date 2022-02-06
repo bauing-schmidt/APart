@@ -20,7 +20,7 @@ APxUIValidationExample class >> associatedPresentersFor: aPresenter [
 ]
 
 { #category : #'*APart Examples-Pharo' }
-APxUIValidationExample class >> defaultSpec [
+APxUIValidationExample class >> defaultLayout [
 	<spec>
 	^ SpGridLayout new
 		add: #label1 at: 1@1;

@@ -16,7 +16,7 @@ APxComplexPromptExample class >> associatedPresentersFor: aPresenter [
 ]
 
 { #category : #'*APart Examples-Pharo' }
-APxComplexPromptExample class >> defaultSpec [
+APxComplexPromptExample class >> defaultLayout [
 	<spec>
 	^ SpGridLayout new
 		add: #editModal at: 1@1;

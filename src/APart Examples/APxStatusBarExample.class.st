@@ -27,7 +27,7 @@ APxStatusBarExample class >> associatedPresentersFor: aPresenter [
 ]
 
 { #category : #'as yet unclassified' }
-APxStatusBarExample class >> defaultSpec [
+APxStatusBarExample class >> defaultLayout [
 	<spec>
 	^ SpGridLayout new
 		add: #label1 at: 1@1;

@@ -5,7 +5,7 @@ APart class >> editInGtk [
 
 	| aDescription | 
 	
-	GtkApplication ensureRunning.
+	GtkEngine ensureRunning.
 	aDescription := self basicNew  magritteDescription .
 	APartDescriptionEditorPresenter open: aDescription inSpecBackend: #Gtk class: self.
 	^ aDescription

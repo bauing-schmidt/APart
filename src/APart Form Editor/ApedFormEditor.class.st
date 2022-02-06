@@ -206,7 +206,7 @@ ApedFormEditor class >> createButtonFor: aPresenter with: iconString and: helpTe
 ]
 
 { #category : #specs }
-ApedFormEditor class >> defaultSpec [
+ApedFormEditor class >> defaultLayout [
 
 	<spec>
 	^ SpBoxLayout newVertical
@@ -481,7 +481,7 @@ ApedFormEditor >> currentLayoutSwitchingPartSwitched: anAnnouncement from: aSwit
 { #category : #API }
 ApedFormEditor >> defaultLayout [ 
 
-	^ self class defaultSpec
+	^ self class defaultLayout
 ]
 
 { #category : #API }

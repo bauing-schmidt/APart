@@ -17,7 +17,7 @@ APxSimpleListExample class >> associatedPresentersFor: aPresenter [
 ]
 
 { #category : #'as yet unclassified' }
-APxSimpleListExample class >> defaultSpec [
+APxSimpleListExample class >> defaultLayout [
 	<spec>
 	
 	| aLayout |

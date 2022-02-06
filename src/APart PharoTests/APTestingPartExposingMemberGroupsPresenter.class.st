@@ -17,7 +17,7 @@ APTestingPartExposingMemberGroupsPresenter class >> associatedPresentersFor: aPr
 ]
 
 { #category : #API }
-APTestingPartExposingMemberGroupsPresenter class >> defaultSpec [
+APTestingPartExposingMemberGroupsPresenter class >> defaultLayout [
 	<spec>
 	^ SpBoxLayout newHorizontal
 		add: #someAction;

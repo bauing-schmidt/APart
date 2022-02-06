@@ -16,7 +16,7 @@ ApedFormPreviewWindowPresenter class >> associatedPresentersFor: aPresenter [
 ]
 
 { #category : #API }
-ApedFormPreviewWindowPresenter class >> defaultSpec [
+ApedFormPreviewWindowPresenter class >> defaultLayout [
 
 	<spec>
 	^ SpBoxLayout newVertical

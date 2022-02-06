@@ -9,7 +9,7 @@ APxSubCanvasSubTree class >> associatedPresentersFor: aPresenter [
 ]
 
 { #category : #'*APart Examples-Pharo' }
-APxSubCanvasSubTree class >> defaultSpec [
+APxSubCanvasSubTree class >> defaultLayout [
 	<spec>
 	^ SpBoxLayout newVertical
 		add: #selectionInTree 

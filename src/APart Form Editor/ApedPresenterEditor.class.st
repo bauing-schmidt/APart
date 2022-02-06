@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #specs }
-ApedPresenterEditor class >> defaultSpec [
+ApedPresenterEditor class >> defaultLayout [
 	<spec>
 	
 	| vertical grid frame | 

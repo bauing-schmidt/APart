@@ -26,7 +26,7 @@ ApedAbstractEditor class >> associatedPresentersFor: aPresenter [
 { #category : #initialization }
 ApedAbstractEditor >> defaultLayout [ 
 
-	^ self class defaultSpec
+	^ self class defaultLayout
 ]
 
 { #category : #initialization }

@@ -23,7 +23,7 @@ APxSimpleComboExample class >> associatedPresentersFor: aPresenter [
 ]
 
 { #category : #'as yet unclassified' }
-APxSimpleComboExample class >> defaultSpec [
+APxSimpleComboExample class >> defaultLayout [
 	<spec>
 	
 	| aLayout |

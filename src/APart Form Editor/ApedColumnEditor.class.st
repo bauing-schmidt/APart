@@ -36,7 +36,7 @@ ApedColumnEditor class >> associatedPresentersFor: aPresenter [
 ]
 
 { #category : #specs }
-ApedColumnEditor class >> defaultSpec [
+ApedColumnEditor class >> defaultLayout [
 	<spec>
 	
 	| grid frame | 

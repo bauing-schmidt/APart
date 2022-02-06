@@ -79,7 +79,7 @@ APPeriodSelection >> createPresenters [
 ]
 
 { #category : #'*APart Examples-Pharo' }
-APPeriodSelection class >> defaultSpec [
+APPeriodSelection class >> defaultLayout [
 	^ SpGridLayout new
 		add: #yearRB at: 1@1;
 		add: #monthRB at: 1@2;

@@ -21,7 +21,7 @@ APxEnablementExample class >> associatedPresentersFor: aPresenter [
 ]
 
 { #category : #'*APart Examples-Pharo' }
-APxEnablementExample class >> defaultSpec [
+APxEnablementExample class >> defaultLayout [
 	<spec>
 	^ SpGridLayout new
 		add: #label1 at: 1@1;

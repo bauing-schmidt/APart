@@ -23,7 +23,7 @@ APxCCPromptExample class >> associatedPresentersFor: aPresenter [
 ]
 
 { #category : #API }
-APxCCPromptExample class >> defaultSpec [
+APxCCPromptExample class >> defaultLayout [
 	<spec>
 	
 	| aLayout |

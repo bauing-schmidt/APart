@@ -20,7 +20,7 @@ APxListExample class >> associatedPresentersFor: aPresenter [
 ]
 
 { #category : #'*APart Examples-Pharo' }
-APxListExample class >> defaultSpec [
+APxListExample class >> defaultLayout [
 	<spec>
 
 	^ SpBoxLayout newHorizontal

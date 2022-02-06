@@ -19,7 +19,7 @@ APxComplexPromptSubEditor class >> associatedPresentersFor: aPresenter [
 ]
 
 { #category : #'*APart Examples-Pharo' }
-APxComplexPromptSubEditor class >> defaultSpec [
+APxComplexPromptSubEditor class >> defaultLayout [
 	<spec>
 	^ SpGridLayout new
 		add: #label1 at: 1@1;

@@ -40,7 +40,7 @@ APxEnumerationComboBoxExample class >> associatedPresentersFor: aPresenter [
 ]
 
 { #category : #'*APart Examples-Pharo' }
-APxEnumerationComboBoxExample class >> defaultSpec [
+APxEnumerationComboBoxExample class >> defaultLayout [
 	<spec>
 	^ SpGridLayout new
 		add: #label1 at: 1@1 span: 2@1;

@@ -82,7 +82,8 @@ APSwitchingPart >> currentPartKey: aSymbol [
 
 	currentPartKey = aSymbol ifTrue: [^self].
 	(releaseInactivePart and: [currentPartKey notNil])
-		ifTrue: [(self removeSubPartForKey: currentPartKey) release].
+		ifTrue: [(self removeSubPartForKey: currentPartKey) release]
+		ifFalse: [ self switchedAwayFrom: currentPartKey ].
 	currentPartKey := aSymbol.
 	(currentPartKey notNil
 		and: [(self subPartAt: currentPartKey ifNone: []) isNil])
@@ -159,6 +160,14 @@ APSwitchingPart >> initialize [
 APSwitchingPart >> lazyInitialize: aBoolean [
 
 	lazyInitialize := aBoolean
+]
+
+{ #category : #'initialize-release' }
+APSwitchingPart >> prepareForRemoval: aKey [ 
+
+	subParts ifNil: [^self].
+	^(subParts at: aKey ifAbsent: [])
+		ifNotNil: [:toRemove | toRemove prepareForRemoval ]
 ]
 
 { #category : #API }

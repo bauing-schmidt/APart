@@ -31,7 +31,7 @@ APxPeriodSelectionExample class >> associatedPresentersFor: aPresenter [
 ]
 
 { #category : #'*APart Examples-Pharo' }
-APxPeriodSelectionExample class >> defaultSpec [
+APxPeriodSelectionExample class >> defaultLayout [
 	<spec>
 	
 	| aLayout |

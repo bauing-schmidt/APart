@@ -16,7 +16,7 @@ APBindingsTestPresenterWithDifferentAspectSymbol class >> associatedPresentersFo
 ]
 
 { #category : #specs }
-APBindingsTestPresenterWithDifferentAspectSymbol class >> defaultSpec [
+APBindingsTestPresenterWithDifferentAspectSymbol class >> defaultLayout [
 	<spec>
 	^ SpBoxLayout newVertical
 		add: #stringPresenter

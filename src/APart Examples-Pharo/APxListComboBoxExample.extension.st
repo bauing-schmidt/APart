@@ -19,7 +19,7 @@ APxListComboBoxExample class >> associatedPresentersFor: aPresenter [
 ]
 
 { #category : #'*APart Examples-Pharo' }
-APxListComboBoxExample class >> defaultSpec [
+APxListComboBoxExample class >> defaultLayout [
 	<spec>
 
 	^ SpBoxLayout newHorizontal

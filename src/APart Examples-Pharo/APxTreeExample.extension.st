@@ -14,7 +14,7 @@ APxTreeExample class >> associatedPresentersFor: aPresenter [
 ]
 
 { #category : #'*APart Examples-Pharo' }
-APxTreeExample class >> defaultSpec [
+APxTreeExample class >> defaultLayout [
 	<spec>
 
 	^ SpBoxLayout newHorizontal

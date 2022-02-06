@@ -28,12 +28,13 @@ APartPharoPlatform >> associationClassForDialogs [
 
 { #category : #accessing }
 APartPharoPlatform >> chooseFromList: newList values: newListValues part: aPartDialog label: aLabel messageString: messageString [
+
 	| associations dialog listPresenter result |
 	associations := newList
-		with: newListValues
-		collect: [ :text :value | text -> value ].
-	dialog := APVersatileDialogPresenter
-		newApplication: aPartDialog specApplication.
+		                with: newListValues
+		                collect: [ :text :value | text -> value ].
+	dialog := APVersatileDialogPresenter newApplication:
+		          aPartDialog specApplication.
 	dialog title: aLabel.
 	dialog mainMessage: (messageString localizedForPresenter: dialog).
 	listPresenter := dialog newList.
@@ -45,15 +46,19 @@ APartPharoPlatform >> chooseFromList: newList values: newListValues part: aPartD
 		text: (dialog translate: (self aPartTranslateDeferred: 'OK'))
 		value: #ok
 		condition: [ listPresenter selection isEmpty not ].
-	dialog addButton: #cancel text: (dialog translate: (self aPartTranslateDeferred: 'Cancel')) value: nil.
+	dialog
+		addButton: #cancel
+		text: (dialog translate: (self aPartTranslateDeferred: 'Cancel'))
+		value: nil.
 	dialog defaultButtonId: #ok.
-	dialog initialExtent: 500@((150 + (newListValues size * 30)) min: 700).
-	dialog openModalWithSpec.
-	aPartDialog client promptExecutor postOpenAction
-		ifNotNil: [ :anAction | anAction cull: dialog ].
+	dialog initialExtent:
+		500 @ (150 + (newListValues size * 30) min: 700).
+	dialog openModal.
+	aPartDialog client promptExecutor postOpenAction ifNotNil: [ 
+		:anAction | anAction cull: dialog ].
 	result := dialog result = #ok
-		ifTrue: [ listPresenter selection selectedItem value ]
-		ifFalse: [ nil ].
+		          ifTrue: [ listPresenter selection selectedItem value ]
+		          ifFalse: [ nil ].
 	^ result
 ]
 
@@ -187,22 +192,23 @@ APartPharoPlatform >> containerChanging: aPartApplicationModel [
 APartPharoPlatform >> errorMessage: messageString wLabel: wLabel dialog: aPartDialog [
 
 	| dialog result |
-		
-	dialog := APVersatileDialogPresenter newApplication: aPartDialog specApplication.
+	dialog := APVersatileDialogPresenter newApplication:
+		          aPartDialog specApplication.
 	dialog title: (wLabel isEmptyOrNil
-		ifTrue: ['PDM error']
-		ifFalse: [wLabel]).
+			 ifTrue: [ 'PDM error' ]
+			 ifFalse: [ wLabel ]).
 	"dialog mainMessage: (aPartDialog client ownerDo: [ :theOwner | messageString translateFor: theOwner ]) expandMacros."
-	dialog mainMessage: (messageString translateFor: aPartDialog specApplication locale).
+	dialog mainMessage:
+		(messageString translateFor: aPartDialog specApplication locale).
 	dialog mainIcon: (aPartDialog iconNamed: #error).
 	dialog addButton: #ok text: 'OK' value: #ok.
-	dialog defaultButtonId: #ok. 
-		
-	dialog openModalWithSpec.
+	dialog defaultButtonId: #ok.
+
+	dialog openModal.
 
 	result := dialog result.
 	result ifNil: [ result := #ok ].
-	
+
 	^ result
 ]
 
@@ -261,23 +267,23 @@ APartPharoPlatform >> itemStringRepresentationBlock: isrb itemIconRepresentation
 APartPharoPlatform >> message: messageString wLabel: wLabel dialog: aPartDialog [
 
 	| theLabel dialog result |
-	(wLabel isNil or: [wLabel = ''])
-		ifTrue: 
-			[theLabel := (self aPartTranslate: 'pdm - Information')]
-		ifFalse: [theLabel := wLabel].
-		
-	dialog := APVersatileDialogPresenter newApplication: aPartDialog specApplication.
+	(wLabel isNil or: [ wLabel = '' ])
+		ifTrue: [ theLabel := self aPartTranslate: 'pdm - Information' ]
+		ifFalse: [ theLabel := wLabel ].
+
+	dialog := APVersatileDialogPresenter newApplication:
+		          aPartDialog specApplication.
 	dialog title: theLabel.
 	dialog mainMessage: (messageString localizedForPresenter: dialog).
 	dialog mainIcon: (aPartDialog iconNamed: #warning).
 	dialog addButton: #ok text: (dialog translate: 'OK') value: #ok.
-	dialog defaultButtonId: #ok. 
-	
-	dialog openModalWithSpec.
+	dialog defaultButtonId: #ok.
+
+	dialog openModal.
 
 	result := dialog result.
 	result ifNil: [ result := #ok ].
-	
+
 	^ result
 ]
 

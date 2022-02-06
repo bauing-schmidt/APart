@@ -18,7 +18,7 @@ APxTreeExampleWithColumns class >> associatedPresentersFor: aPresenter [
 ]
 
 { #category : #'as yet unclassified' }
-APxTreeExampleWithColumns class >> defaultSpec [
+APxTreeExampleWithColumns class >> defaultLayout [
 	<spec>
 
 	^ SpBoxLayout newHorizontal

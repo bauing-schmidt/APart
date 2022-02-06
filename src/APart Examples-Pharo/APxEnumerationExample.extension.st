@@ -86,7 +86,7 @@ APxEnumerationExample >> createPresenters [
 ]
 
 { #category : #'*APart Examples-Pharo' }
-APxEnumerationExample class >> defaultSpec [
+APxEnumerationExample class >> defaultLayout [
 	<spec>
 	^ SpGridLayout new
 		add: #label1 at: 1@1 span: 2@1;

@@ -22,7 +22,7 @@ APartTest1Gui class >> createRootPart [
 ]
 
 { #category : #specs }
-APartTest1Gui class >> defaultSpec [
+APartTest1Gui class >> defaultLayout [
 	<spec>
 	
 	| aLayout |

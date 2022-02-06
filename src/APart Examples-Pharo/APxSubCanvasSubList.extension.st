@@ -9,7 +9,7 @@ APxSubCanvasSubList class >> associatedPresentersFor: aPresenter [
 ]
 
 { #category : #'*APart Examples-Pharo' }
-APxSubCanvasSubList class >> defaultSpec [
+APxSubCanvasSubList class >> defaultLayout [
 	<spec>
 	^ SpBoxLayout newVertical
 		add: #selectionInList 

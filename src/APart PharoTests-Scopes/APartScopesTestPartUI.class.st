@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #specs }
-APartScopesTestPartUI class >> defaultSpec [
+APartScopesTestPartUI class >> defaultLayout [
 	<spec>
 	
 	| aLayout |

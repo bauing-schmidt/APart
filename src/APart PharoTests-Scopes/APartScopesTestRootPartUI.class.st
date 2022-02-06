@@ -15,7 +15,7 @@ APartScopesTestRootPartUI class >> associatedPresentersFor: aPresenter [
 ]
 
 { #category : #specs }
-APartScopesTestRootPartUI class >> defaultSpec [
+APartScopesTestRootPartUI class >> defaultLayout [
 	<spec>
 	
 	| aLayout |

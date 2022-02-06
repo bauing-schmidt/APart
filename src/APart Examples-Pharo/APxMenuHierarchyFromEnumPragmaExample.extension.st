@@ -19,7 +19,7 @@ APxMenuHierarchyFromEnumPragmaExample class >> associatedPresentersFor: aPresent
 ]
 
 { #category : #'*APart Examples-Pharo' }
-APxMenuHierarchyFromEnumPragmaExample class >> defaultSpec [
+APxMenuHierarchyFromEnumPragmaExample class >> defaultLayout [
 	<spec>
 	
 	^ SpGridLayout new

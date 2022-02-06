@@ -35,7 +35,7 @@ ApedColumnsEditorPresenter class >> associatedPresentersFor: aPresenter [
 ]
 
 { #category : #API }
-ApedColumnsEditorPresenter class >> defaultSpec [
+ApedColumnsEditorPresenter class >> defaultLayout [
 
 	<spec>
 	^ SpBoxLayout newHorizontal

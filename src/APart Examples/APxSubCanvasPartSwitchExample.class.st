@@ -34,7 +34,7 @@ APxSubCanvasPartSwitchExample >> contextSwitched: anAnnouncement from: aSwitchin
 { #category : #'initialize-release' }
 APxSubCanvasPartSwitchExample >> defaultLayout [ 
 
-	^ self class defaultSpec
+	^ self class defaultLayout
 
 ]
 

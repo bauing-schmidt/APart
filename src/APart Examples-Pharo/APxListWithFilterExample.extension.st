@@ -19,7 +19,7 @@ APxListWithFilterExample class >> associatedPresentersFor: aPresenter [
 ]
 
 { #category : #'*APart Examples-Pharo' }
-APxListWithFilterExample class >> defaultSpec [
+APxListWithFilterExample class >> defaultLayout [
 	<spec>
 
 	^ SpBoxLayout newHorizontal

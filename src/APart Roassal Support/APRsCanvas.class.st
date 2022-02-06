@@ -145,6 +145,13 @@ APRsCanvas >> signalUpdate [
 ]
 
 { #category : #accessing }
+APRsCanvas >> signalUpdateRaw [
+
+	super signalUpdate.
+
+]
+
+{ #category : #accessing }
 APRsCanvas >> updateEnabled [
 
 	^ updateEnabled

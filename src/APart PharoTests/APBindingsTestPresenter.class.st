@@ -13,7 +13,7 @@ APBindingsTestPresenter class >> associatedPresentersFor: aPresenter [
 ]
 
 { #category : #specs }
-APBindingsTestPresenter class >> defaultSpec [
+APBindingsTestPresenter class >> defaultLayout [
 	<spec>
 	^ SpBoxLayout newVertical
 		add: #stringAspect

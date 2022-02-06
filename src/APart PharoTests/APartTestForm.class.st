@@ -14,7 +14,7 @@ APartTestForm class >> createRootPart [
 ]
 
 { #category : #specs }
-APartTestForm class >> defaultSpec [
+APartTestForm class >> defaultLayout [
 	<spec>
 	
 	| aLayout |

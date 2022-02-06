@@ -25,7 +25,7 @@ APxMenuFromEnumExample class >> associatedPresentersFor: aPresenter [
 ]
 
 { #category : #API }
-APxMenuFromEnumExample class >> defaultSpec [
+APxMenuFromEnumExample class >> defaultLayout [
 	<spec>
 
 	^ SpBoxLayout newVertical

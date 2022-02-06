@@ -1244,6 +1244,12 @@ APart >> prepareForLocaleSwitchTo: newAPartLocale [
 
 ]
 
+{ #category : #'initialize-release' }
+APart >> prepareForRemoval [
+
+
+]
+
 { #category : #events }
 APart >> presenterBuilt: aPresenter [ 
 
@@ -1631,6 +1637,19 @@ APart >> subpartsHierarchyIncludes: aPart [
 APart >> supportsAPartRedirection [ 
 
 	^ true
+]
+
+{ #category : #events }
+APart >> switchedAway [
+
+	"the switching part owning this part was switched to some other one"
+]
+
+{ #category : #API }
+APart >> switchedAwayFrom: aKey [
+
+	subParts ifNil: [^self].
+	subParts at: aKey ifPresent: [ :aPart | aPart switchedAway ].
 ]
 
 { #category : #focus }

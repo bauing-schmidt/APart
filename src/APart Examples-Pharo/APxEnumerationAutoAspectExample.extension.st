@@ -25,7 +25,7 @@ APxEnumerationAutoAspectExample class >> associatedPresentersFor: aPresenter [
 ]
 
 { #category : #'*APart Examples-Pharo' }
-APxEnumerationAutoAspectExample class >> defaultSpec [
+APxEnumerationAutoAspectExample class >> defaultLayout [
 	<spec>
 	^ SpGridLayout new
 		add: #label1 at: 1@1 span: 2@1;

@@ -19,7 +19,7 @@ APxMenuNestedEnumeration class >> associatedPresentersFor: aPresenter [
 ]
 
 { #category : #'*APart Examples-Pharo' }
-APxMenuNestedEnumeration class >> defaultSpec [
+APxMenuNestedEnumeration class >> defaultLayout [
 	<spec>
 	
 	^ SpGridLayout new

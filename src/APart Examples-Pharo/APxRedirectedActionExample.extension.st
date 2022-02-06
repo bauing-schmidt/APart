@@ -23,7 +23,7 @@ APxRedirectedActionExample class >> associatedPresentersFor: aPresenter [
 ]
 
 { #category : #'*APart Examples-Pharo' }
-APxRedirectedActionExample class >> defaultSpec [
+APxRedirectedActionExample class >> defaultLayout [
 	<spec>
 	
 	^ SpBoxLayout newVertical

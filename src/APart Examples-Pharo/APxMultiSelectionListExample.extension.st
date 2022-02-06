@@ -14,7 +14,7 @@ APxMultiSelectionListExample class >> associatedPresentersFor: aPresenter [
 ]
 
 { #category : #'*APart Examples-Pharo' }
-APxMultiSelectionListExample class >> defaultSpec [
+APxMultiSelectionListExample class >> defaultLayout [
 	<spec>
 	
 	^ SpBoxLayout newVertical

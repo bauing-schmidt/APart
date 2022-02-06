@@ -11,7 +11,7 @@ Class {
 }
 
 { #category : #specs }
-ApedFormPreview class >> defaultSpec [ 
+ApedFormPreview class >> defaultLayout [ 
 
 	
 ]

@@ -23,7 +23,7 @@ APxMenuFromDynamicEnumExample class >> associatedPresentersFor: aPresenter [
 ]
 
 { #category : #'*APart Examples-Pharo' }
-APxMenuFromDynamicEnumExample class >> defaultSpec [
+APxMenuFromDynamicEnumExample class >> defaultLayout [
 	<spec>
 	
 	^ SpBoxLayout newHorizontal

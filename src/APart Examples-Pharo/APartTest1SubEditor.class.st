@@ -18,7 +18,7 @@ APartTest1SubEditor class >> createRootPart [
 ]
 
 { #category : #specs }
-APartTest1SubEditor class >> defaultSpec [
+APartTest1SubEditor class >> defaultLayout [
 	<spec>
 	
 	| aLayout |
