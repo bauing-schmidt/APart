@@ -1317,8 +1317,18 @@ ApedFormEditorPart >> openPreview [
 { #category : #'as yet unclassified' }
 ApedFormEditorPart >> openWindowsOpenFileDialog [
 
-	|fileDialog|
-	 fileDialog := WindowsOpenFileDialog new 		 
+	| nativeDialog fileDialog |
+	
+	nativeDialog := (self class environment at: #WindowsOpenFileDialog ifAbsent: [nil]).
+	
+	nativeDialog ifNil: [ 
+		^ UIManager default
+		   chooseExistingFileReference: 'select file'
+		   extensions: #(json)
+		   path: '.' asFileReference
+		   preview: nil ].
+
+	 fileDialog := nativeDialog new 		 
 		  filter: 'JSON File (*.json)|*.json|All files (*.*)|*.*';
 		  filterIndex: 1;
 		  showDialog.
@@ -1328,8 +1338,18 @@ ApedFormEditorPart >> openWindowsOpenFileDialog [
 { #category : #'as yet unclassified' }
 ApedFormEditorPart >> openWindowsSaveFileDialog [
 
-	|fileDialog|
-	 fileDialog := WindowsSaveFileDialog new	 
+	| nativeDialog fileDialog |
+	
+	nativeDialog := (self class environment at: #WindowsSaveFileDialog ifAbsent: [nil]).
+	
+	nativeDialog ifNil: [ 
+		^ UIManager default
+		   chooseForSaveFileReference: 'select file'
+		   extensions: #(json)
+		   path: '.' asFileReference
+		   preview: nil ].
+	
+	 fileDialog := nativeDialog new	 
 		  filter: 'JSON File (*.json)|*.json|All files (*.*)|*.*';
 		  filterIndex: 1.		
 	self loadedFile ifNotNil: [: lf| fileDialog fileName: lf asFileReference basename; 
