@@ -5,7 +5,7 @@ A framework for building database-centric, domain-specific solutions
 
 ## How to install
 
-You need Pharo 10 image with Gtk3 support, see https://github.com/pharo-spec/Spec-Gtk for installation details.
+You need Pharo 10 image and virtual machine with Gtk3 support, see https://github.com/pharo-spec/Spec-Gtk for installation details.
 
 ```smalltalk
 Metacello new
