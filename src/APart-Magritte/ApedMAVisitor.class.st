@@ -28,7 +28,7 @@ Class {
 		'grid',
 		'lastRowIndex'
 	],
-	#category : #'APart Form Editor-Magritte'
+	#category : #'APart-Magritte'
 }
 
 { #category : #accessing }

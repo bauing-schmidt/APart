@@ -30,10 +30,11 @@ BaselineOfAPart >> baseline: spec [
 		
 		spec baseline: 'SchmidtExtensions' with: [ spec repository: 'github://bauing-schmidt/SchmidtExtensions' ].	
 		
+		spec package: 'APart Patches'.
 		spec package: 'APart Basic'.
+		spec package: 'APart Recording'.
 		spec package: 'APart BasicParts'.
 		spec package: 'APart Pharo'.
-		spec package: 'APart Patches'.
 	
 		spec package: 'APart PharoTests-Scopes'.
 		spec package: 'APart Localization'.
