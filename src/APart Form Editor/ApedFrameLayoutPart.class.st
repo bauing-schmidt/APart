@@ -22,6 +22,12 @@ ApedFrameLayoutPart class >> layoutName [
 	^ 'Frame'
 ]
 
+{ #category : #visiting }
+ApedFrameLayoutPart >> accept: anApedVisitor [
+
+	anApedVisitor visitFrameLayout: self
+]
+
 { #category : #accessing }
 ApedFrameLayoutPart >> childClass [ 
 

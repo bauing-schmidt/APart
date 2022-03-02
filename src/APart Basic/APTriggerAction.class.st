@@ -12,15 +12,6 @@ Class {
 	#category : #'APart Basic-Actions'
 }
 
-{ #category : #API }
-APTriggerAction >> createRecordedInteraction [
-
-	^(APRecordedInteraction trigger)
-		key: key;
-		value: self;
-		yourself
-]
-
 { #category : #'initialize-release' }
 APTriggerAction >> initialize [
 

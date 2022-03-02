@@ -29,11 +29,11 @@ APartLocaleEnGB >> eras [
 
 { #category : #utilities }
 APartLocaleEnGB >> longDayOfWeek: value [
-	^ #(Monday Tuesday Wednesday Thursday Friday Saturday Sunday)
-		at: value - self weekStart
+	^ #(Sunday Monday Tuesday Wednesday Thursday Friday Saturday)
+		at: value
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #utilities }
 APartLocaleEnGB >> longTimeZoneName: value decoded: aString [
 	^ aString
 ]
@@ -141,5 +141,5 @@ APartLocaleEnGB >> shortMonthNames [
 { #category : #'system primitives' }
 APartLocaleEnGB >> weekStart [
 
-	^ 1
+	^ 7
 ]

@@ -9,6 +9,7 @@ Class {
 
 { #category : #'code-critics' }
 ManifestAPartRoassalSupport class >> ruleCollectionMessagesToExternalObjectRuleV1FalsePositive [
+	<ignoreForCoverage>
 	^ #(#(#(#RGClassDefinition #(#APRsPartInterface)) #'2021-11-05T15:29:32.612+01:00') #(#(#RGClassDefinition #(#APRsBasicDispatcher)) #'2021-11-11T20:39:00.646+01:00') )
 ]
 

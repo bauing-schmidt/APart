@@ -9,7 +9,7 @@ NumericPatternFormatterLocaleDeDETest >> locale [
 	^ APartLocaleDeDE new
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 NumericPatternFormatterLocaleDeDETest >> test_SharpsOnly_LiteralsOnTheLeft [
 	self
 		multiAssert:
@@ -31,7 +31,7 @@ NumericPatternFormatterLocaleDeDETest >> test_SharpsOnly_LiteralsOnTheLeft [
 				yourself)
 ]
 
-{ #category : #tests }
+{ #category : #running }
 NumericPatternFormatterLocaleDeDETest >> test_SharpsOnly_LiteralsOnTheRight [
 	self
 		multiAssert:
@@ -50,7 +50,7 @@ NumericPatternFormatterLocaleDeDETest >> test_SharpsOnly_LiteralsOnTheRight [
 				yourself)
 ]
 
-{ #category : #tests }
+{ #category : #running }
 NumericPatternFormatterLocaleDeDETest >> test_ZerosAndSharps [
 	self
 		multiAssert:
@@ -67,7 +67,7 @@ NumericPatternFormatterLocaleDeDETest >> test_ZerosAndSharps [
 				yourself)
 ]
 
-{ #category : #tests }
+{ #category : #running }
 NumericPatternFormatterLocaleDeDETest >> test_ZerosOnly [
 	self
 		multiAssert:
@@ -84,7 +84,7 @@ NumericPatternFormatterLocaleDeDETest >> test_ZerosOnly [
 				yourself)
 ]
 
-{ #category : #tests }
+{ #category : #running }
 NumericPatternFormatterLocaleDeDETest >> test_ZerosOnly_LiteralsOnBothSides [
 	self
 		multiAssert:
@@ -101,7 +101,7 @@ NumericPatternFormatterLocaleDeDETest >> test_ZerosOnly_LiteralsOnBothSides [
 				yourself)
 ]
 
-{ #category : #tests }
+{ #category : #running }
 NumericPatternFormatterLocaleDeDETest >> test_ZerosOnly_LiteralsOnTheLeft [
 	self
 		multiAssert:
@@ -118,7 +118,7 @@ NumericPatternFormatterLocaleDeDETest >> test_ZerosOnly_LiteralsOnTheLeft [
 				yourself)
 ]
 
-{ #category : #tests }
+{ #category : #running }
 NumericPatternFormatterLocaleDeDETest >> test_ZerosOnly_LiteralsOnTheRight [
 	self
 		multiAssert:

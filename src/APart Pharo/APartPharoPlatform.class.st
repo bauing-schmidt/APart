@@ -388,26 +388,28 @@ APartPharoPlatform >> postBuildTreeKey: aTreeViewKey in: aView interface: interf
 { #category : #accessing }
 APartPharoPlatform >> questionYesNo: messageString wLabel: wLabel labelYes: aYesLabel labelNo: aNoLabel dialog: aPartDialog [
 
-	| dialog  result|
-
-	dialog := APVersatileDialogPresenter newApplication: aPartDialog specApplication.
+	| dialog result |
+	dialog := APVersatileDialogPresenter newApplication:
+		          aPartDialog specApplication.
 	dialog title: wLabel.
 	dialog withWindowDo: [ :aWindow | aWindow title: wLabel ].
 	dialog mainMessage: (messageString localizedForPresenter: dialog).
 	dialog mainIcon: (aPartDialog iconNamed: #question).
 	dialog addButton: #yes text: aYesLabel value: #yes.
 	dialog addButton: #no text: aNoLabel value: #no.
-	dialog defaultButtonId: #yes. 
+	dialog defaultButtonId: #yes.
 
-	(ProvideAnswerNotification signal: messageString) 
+	(ProvideAnswerNotification signal: messageString)
 		ifNotNil: [ :answer | 
-			result := answer ifTrue: [ #yes ] ifFalse: [ #no ] ]
-		ifNil: [ 	
-			dialog openModalWithSpec.
+			result := answer
+				          ifTrue: [ #yes ]
+				          ifFalse: [ #no ] ]
+		ifNil: [ 
+			dialog openModal.
 			result := dialog result.
 			result ifNil: [ result := #no ] ].
-		
-	^result
+
+	^ result
 ]
 
 { #category : #accessing }

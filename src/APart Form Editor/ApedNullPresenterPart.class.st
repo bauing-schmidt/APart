@@ -6,3 +6,9 @@ Class {
 	#superclass : #ApedPresenterPart,
 	#category : #'APart Form Editor-Element Parts'
 }
+
+{ #category : #visiting }
+ApedNullPresenterPart >> accept: anApedVisitor [
+
+	anApedVisitor visitNullPart: self
+]

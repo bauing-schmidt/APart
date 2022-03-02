@@ -47,6 +47,7 @@ APMemberGroupsFocusTest >> testAccepting [
 	
 	exposingPart2 takeFocus.	
 	self deny: (presenter additionalSubpresentersMap at: #someAction) isEnabled.
+	window close.
 ]
 
 { #category : #running }
@@ -172,4 +173,5 @@ APMemberGroupsFocusTest >> testPresenter [
 	
 	exposingPart2 takeFocus.	
 	self deny: (presenter additionalSubpresentersMap at: #someAction) isEnabled.
+	window close.
 ]

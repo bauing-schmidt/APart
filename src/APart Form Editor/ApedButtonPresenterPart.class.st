@@ -24,6 +24,12 @@ ApedButtonPresenterPart class >> label [
 ]
 
 { #category : #accessing }
+ApedButtonPresenterPart >> accept: anApedVisitor [
+
+	anApedVisitor visitButton: self
+]
+
+{ #category : #accessing }
 ApedButtonPresenterPart >> icon [
 	^ icon
 ]

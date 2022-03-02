@@ -184,21 +184,6 @@ APartAbstractInterface >> clientRegistry [
 	^part ifNotNil: [:p | p clientRegistry]
 ]
 
-{ #category : #'API client' }
-APartAbstractInterface >> cloneInteractionListenersOn: anInterface [
-
-	^(interactionListeners collect: 
-			[:ial |
-			ial
-				privateRecordInteraction: ((anInterface part isSimplePrompt
-							ifTrue: [APRecordedInteraction simplePrompt]
-							ifFalse: [APRecordedInteraction complexPrompt])
-							key: anInterface part key;
-							yourself);
-				cloneOnSubInterface: anInterface])
-		reject: [:e | e isNil]
-]
-
 { #category : #'initialize-release' }
 APartAbstractInterface >> closePart [
 	"Benachrichtigt Clients über den anstehenden Close des Parts und führt den Close anschließend durch."

@@ -23,6 +23,7 @@ APRsCompositeShape >> encompassingRectangle [
 		encompassingRectangle := Rectangle
 						merging: (self shapes collect: #encompassingRectangle)
 	].
+	baseRectangle := encompassingRectangle.
 	^encompassingRectangle
 ]
 

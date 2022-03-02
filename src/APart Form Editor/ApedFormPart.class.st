@@ -12,6 +12,12 @@ Class {
 	#category : #'APart Form Editor-Main'
 }
 
+{ #category : #visiting }
+ApedFormPart >> accept: anApedVisitor [
+
+	anApedVisitor visitForm: self
+]
+
 { #category : #'initialize-release' }
 ApedFormPart >> addElement: newElement [
 
@@ -420,8 +426,10 @@ ApedFormPart >> setElementKeysForChildren: aChildCollection [
 	children do: [ :child | 
 		child isNode
 			ifTrue: [ 
-				element := (self elementsList list select: [ :e | 
-					            e presenterId value = child presenterId value ]) any.
+				| aCollection |
+				aCollection := self elementsList list select: [ :e | 
+					            e presenterId value = child presenterId value ].
+				element := aCollection ifEmpty: [ nil ] ifNotEmpty: [ aCollection anyOne ].
 				element ifNotNil: [ child elementKey: element key ] ]
 			ifFalse: [ self setElementKeysForChildren: child children  ] ]
 ]

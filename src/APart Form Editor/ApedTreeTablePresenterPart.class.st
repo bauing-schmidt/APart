@@ -19,6 +19,12 @@ ApedTreeTablePresenterPart class >> label [
 	^ 'Tree table'
 ]
 
+{ #category : #visiting }
+ApedTreeTablePresenterPart >> accept: anApedVisitor [
+
+	anApedVisitor visitTreeTable: self
+]
+
 { #category : #preview }
 ApedTreeTablePresenterPart >> newPreviewPresenterOn: aPresenter [
 

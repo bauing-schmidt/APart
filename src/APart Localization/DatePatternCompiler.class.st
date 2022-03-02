@@ -104,6 +104,9 @@ Class {
 		'compiledCode',
 		'i'
 	],
+	#classVars : [
+		'datetimePatterns'
+	],
 	#category : #'APart Localization'
 }
 
@@ -116,55 +119,33 @@ DatePatternCompiler class >> datetimePatternTags [
 ]
 
 { #category : #constants }
-DatePatternCompiler class >> datetimePatterns [
-	^ Dictionary new
-		at: 'PATTERN_ERA' put: 0;
-		"G"
-			at: 'PATTERN_YEAR' put: 1;
-		"y"
-			at: 'PATTERN_MONTH' put: 2;
-		"M"
-			at: 'PATTERN_DAY_OF_MONTH' put: 3;
-		"d"
-			at: 'PATTERN_HOUR_OF_DAY1' put: 4;
-		"k"
-			at: 'PATTERN_HOUR_OF_DAY0' put: 5;
-		"H"
-			at: 'PATTERN_MINUTE' put: 6;
-		"m"
-			at: 'PATTERN_SECOND' put: 7;
-		"s"
-			at: 'PATTERN_MILLISECOND' put: 8;
-		"S"
-			at: 'PATTERN_DAY_OF_WEEK' put: 9;
-		"E"
-			at: 'PATTERN_DAY_OF_YEAR' put: 10;
-		"D"
-			at: 'PATTERN_DAY_OF_WEEK_IN_MONTH' put: 11;
-		"F"
-			at: 'PATTERN_WEEK_OF_YEAR' put: 12;
-		"w"
-			at: 'PATTERN_WEEK_OF_MONTH' put: 13;
-		"W"
-			at: 'PATTERN_AM_PM' put: 14;
-		"a"
-			at: 'PATTERN_HOUR1' put: 15;
-		"h"
-			at: 'PATTERN_HOUR0' put: 16;
-		"K"
-			at: 'PATTERN_ZONE_NAME' put: 17;
-		"z"
-			at: 'PATTERN_ZONE_VALUE' put: 18;
-		"Z"
-			at: 'PATTERN_WEEK_YEAR' put: 19;
-		"Y"
-			at: 'PATTERN_ISO_DAY_OF_WEEK' put: 20;
-		"u"
-			at: 'PATTERN_ISO_ZONE' put: 21;
-		"X"
-			at: 'PATTERN_MONTH_STANDALONE' put: 22;
-		"L"
-			yourself
+DatePatternCompiler class >> initialize [
+
+	datetimePatterns := Dictionary new
+		                    at: 'PATTERN_ERA' put: 0;
+		                    "G"at: 'PATTERN_YEAR' put: 1;
+		                    "y"at: 'PATTERN_MONTH' put: 2;
+		                    "M"at: 'PATTERN_DAY_OF_MONTH' put: 3;
+		                    "d"at: 'PATTERN_HOUR_OF_DAY1' put: 4;
+		                    "k"at: 'PATTERN_HOUR_OF_DAY0' put: 5;
+		                    "H"at: 'PATTERN_MINUTE' put: 6;
+		                    "m"at: 'PATTERN_SECOND' put: 7;
+		                    "s"at: 'PATTERN_MILLISECOND' put: 8;
+		                    "S"at: 'PATTERN_DAY_OF_WEEK' put: 9;
+		                    "E"at: 'PATTERN_DAY_OF_YEAR' put: 10;
+		                    "D"at: 'PATTERN_DAY_OF_WEEK_IN_MONTH' put: 11;
+		                    "F"at: 'PATTERN_WEEK_OF_YEAR' put: 12;
+		                    "w"at: 'PATTERN_WEEK_OF_MONTH' put: 13;
+		                    "W"at: 'PATTERN_AM_PM' put: 14;
+		                    "a"at: 'PATTERN_HOUR1' put: 15;
+		                    "h"at: 'PATTERN_HOUR0' put: 16;
+		                    "K"at: 'PATTERN_ZONE_NAME' put: 17;
+		                    "z"at: 'PATTERN_ZONE_VALUE' put: 18;
+		                    "Z"at: 'PATTERN_WEEK_YEAR' put: 19;
+		                    "Y"at: 'PATTERN_ISO_DAY_OF_WEEK' put: 20;
+		                    "u"at: 'PATTERN_ISO_ZONE' put: 21;
+		                    "X"at: 'PATTERN_MONTH_STANDALONE' put: 22;
+		                    "L"yourself
 ]
 
 { #category : #'instance creation' }
@@ -214,7 +195,13 @@ DatePatternCompiler >> compile [
 
 	"Set a control flag"
 	forceStandaloneForm := tagcount = 1
-		and: [ prevTag = (self class datetimePatterns at: 'PATTERN_MONTH') ]
+		and: [ prevTag = (self datetimePatternsAt: 'PATTERN_MONTH') ]
+]
+
+{ #category : #constants }
+DatePatternCompiler >> datetimePatternsAt: aKey [
+
+	^ datetimePatterns at: aKey
 ]
 
 { #category : #enumerating }
@@ -235,36 +222,53 @@ DatePatternCompiler >> doWithContinue: aBlock [
 ]
 
 { #category : #enumerating }
-DatePatternCompiler >> each: c continue: continue [
-	c = $'
-		ifTrue: [ self quoteCharacterHasBeenRead.
-			continue value ].
-	inQuote
-		ifTrue: [ tmpBuffer nextPut: c.
-			continue value ].
-	c isBetweenazOrAZ
-		ifFalse: [ count = 0
-				ifFalse: [ self encodeLastTag: -1 count: 0 ].	"Reset `count`"
-			c asInteger < 128
-				ifTrue: [ compiledCode
-						nextPut: (self tagQuoteAsciiChar << 8 bitOr: c asInteger) asCharacter ]
-				ifFalse: [ | j |
-					j := self
-						doUntil: [ :d :break | 
-							(d = $' or: [ d isBetweenazOrAZ ])
-								ifTrue: [ break value ] ].
-					compiledCode
-						nextPut: (self tagQuoteChars << 8 bitOr: j - i) asCharacter.
-					i to: j - 1 do: [ :k | 
-						i := k.
-						compiledCode nextPut: (self at: i) ] ].
-			continue value ].
-	self mapPatternCharFor: c continue: continue
+DatePatternCompiler >> each: aCharacter continue: continue [
+
+	aCharacter = $' ifTrue: [ 
+		self quoteCharacterHasBeenRead.
+		continue value ].
+
+	inQuote ifTrue: [ 
+		tmpBuffer nextPut: aCharacter.
+		continue value ].
+
+	aCharacter isBetweenazOrAZ ifFalse: [ 
+		| c nbsp |
+		aCharacter = $_
+			ifTrue: [ 
+				nbsp := true.
+				c := Character nbsp ]
+			ifFalse: [ 
+				nbsp := false.
+				c := aCharacter ].
+
+		count = 0 ifFalse: [ self encodeLastTag: -1 count: 0 ]. "Reset `count`"
+
+		c asInteger < 128 | nbsp
+			ifTrue: [ 
+				compiledCode nextPut:
+					(self tagQuoteAsciiChar << 8 bitOr: c asInteger) asCharacter ]
+			ifFalse: [ 
+				| j |
+				self flag:
+					'This branch should be investigated further because causes errors.'.
+
+				j := self doUntil: [ :d :break | 
+					     (d = $' or: [ d isBetweenazOrAZ ]) ifTrue: [ break value ] ].
+				compiledCode nextPut:
+					(self tagQuoteChars << 8 bitOr: j - i) asCharacter.
+				i to: j - 1 do: [ :k | 
+					i := k.
+					compiledCode nextPut: (self at: i) ] ].
+
+		continue value ].
+
+	self mapPatternCharFor: aCharacter continue: continue
 ]
 
 { #category : #evaluating }
 DatePatternCompiler >> encode: tag count: len stream: buffer [
-	(tag = (self class datetimePatterns at: 'PATTERN_ISO_ZONE')
+	(tag = (self datetimePatternsAt: 'PATTERN_ISO_ZONE')
 		and: [ len >= 4 ])
 		ifTrue: [ Error signal: 'invalid ISO 8601 format' ].
 	len < 255

@@ -93,18 +93,6 @@ APartDescriptionTest >> testActionKinds [
 	
 ]
 
-{ #category : #'tests - events' }
-APartDescriptionTest >> testActionsForEvent [
-
-	self assert: (description actionNamesForEventType: APFocusEvent ifAbsent: [ #missing ]) equals: #missing.
-	
-	self should: [ description onEvent: APFocusEvent doActionNamed: #someAction ] raise: APMissingActionError.
-	description createAction: #someAction do: [ #performed ].
-	description onEvent: APFocusEvent doActionNamed: #someAction.
-		
-	self assertCollection: (description actionNamesForEventType: APFocusEvent ifAbsent: [ #missing ]) hasSameElements: #(someAction).
-]
-
 { #category : #'tests - actions' }
 APartDescriptionTest >> testAllActionKeys [
 			
@@ -303,6 +291,36 @@ APartDescriptionTest >> testCreateActionDoIfaddEnumEntryTo [
 ]
 
 { #category : #'tests - actions' }
+APartDescriptionTest >> testCreateActionForUseCase [
+	
+	| anUseCase anAction executed | 
+	
+	executed := false.
+	
+	anUseCase := APTestUseCase new.
+	anUseCase block:[ executed := true ].
+	
+	anAction := description createAction: #someAction forUseCase: anUseCase.
+	
+	self assert: anAction key equals: #someAction.
+	self assert: (description hasActionNamed: #someAction).
+	
+	self should: [ description createAction: #someAction forUseCase: anUseCase ] raise: APActionRedefinitionError.
+	
+	part execute: #someAction ifDisabled: [ self fail ].
+	
+	self assert: executed
+	
+	
+	
+	
+	
+
+	
+	
+]
+
+{ #category : #'tests - actions' }
 APartDescriptionTest >> testCreateActionRedirectTo [
 	
 	| anAction | 
@@ -480,7 +498,7 @@ APartDescriptionTest >> testDefineAction [
 	| anAction returnedAction | 
 	
 	anAction := APPublicAction key: #someAction do: [ self performAction ] if: APCondition true.
-	returnedAction := description defineAction: anAction.
+	returnedAction := description addAction: anAction.
 	
 	self assert: anAction key equals: #someAction.
 	self assert: (description hasActionNamed: #someAction).
@@ -592,6 +610,36 @@ APartDescriptionTest >> testRelease [
 	self deny: (description hasAspectNamed: #someAspect).	
 	self deny: (description hasActionNamed: #someAction).	
 
+]
+
+{ #category : #'tests - actions' }
+APartDescriptionTest >> testSetExpectArgumentForActionKey [
+	
+	| anUseCase anAction  otherExecuted | 
+	
+	otherExecuted := false.
+	
+	anUseCase := APTestUseCase new.
+	anUseCase otherBlock: [ :arg | otherExecuted := arg ].
+	
+	anAction := description createAction: #otherAction: forUseCase: anUseCase.
+	description setExpectArgumentForActionKey: #otherAction:.
+
+	self assert: (description hasActionNamed: #otherAction:).
+	
+	self should: [ description createAction: #otherAction: forUseCase: anUseCase ] raise: APActionRedefinitionError.	
+	
+	part execute: #otherAction: with: 42 ifDisabled: [ self fail ].
+	
+	self assert: otherExecuted equals: #(42). "list of arguments"
+	
+	
+	
+	
+	
+
+	
+	
 ]
 
 { #category : #tests }

@@ -458,6 +458,14 @@ APartTestAPart >> testIsInitialized [
 ]
 
 { #category : #running }
+APartTestAPart >> testIsPart [ 
+
+	self assert: part isPart.
+	self deny: nil isPart.
+	self deny: 42 isPart.
+]
+
+{ #category : #running }
 APartTestAPart >> testIsProptable [
 
 	self deny: APart createWithClientRegistry isPromptable. "default behavior"
@@ -595,11 +603,11 @@ APartTestAPart >> testOpenClientPrompt [
 { #category : #running }
 APartTestAPart >> testOpenClientsForPart [
 	
-	self flag: #todo. "the test opens GUI"
-
 	SpBindings value: SpStubAdapterBindings during: [ 
-		part openClient.
-		self assert: ((part clientRegistry findClientsForInterface: part partInterface) size = 1)
+		| windows |
+		windows := part openClient.
+		self assert: ((part clientRegistry findClientsForInterface: part partInterface) size = 1).
+		windows do: [ :each | each close ]
 	]
 
 ]
@@ -971,6 +979,27 @@ APartTestAPart >> testWhenClosingDo [
 	part partInterface requestForPartClose.
 	
 	self assert: activated
+]
+
+{ #category : #running }
+APartTestAPart >> testWithAllSubparts [ 
+
+	| part2 part3 part4 |
+
+	self assertCollection: part withAllSubparts hasSameElements: { part }.
+	
+	part2 := APartTestFormPart onPart: part key: #subpart1.
+
+	self assertCollection: part withAllSubparts hasSameElements: { part. part2 }.
+	
+	part3 := APartTestFormPart onPart: part key:  #subpart2.
+
+	self assertCollection: part withAllSubparts hasSameElements: { part. part2. part3 }.
+
+	part4 := APartTestFormPart onPart: part2 key: #subpart1.
+
+	self assertCollection: part withAllSubparts hasSameElements: { part. part2. part3. part4 }.
+
 ]
 
 { #category : #running }

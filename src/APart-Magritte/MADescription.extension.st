@@ -28,3 +28,9 @@ MADescription >> editInGtk [
 	APartDescriptionEditorPresenter open: self inSpecBackend: #Gtk class: self.
 
 ]
+
+{ #category : #'*APart-Magritte' }
+MADescription >> editInGtkFor: aClass [
+	APartDescriptionEditorPresenter open: self inSpecBackend: #Gtk class: aClass.
+
+]

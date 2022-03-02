@@ -193,7 +193,7 @@ ApedFormEditor class >> associatedPresentersFor: aPresenter [
 				   help: (aPresenter aPartTranslate: 'Add a frame') ]).
 			  (#addScrollLayout -> [ 
 			   aPresenter newButton
-				   icon: (aPresenter partInterface part iconNamed: 'greenArrowUpAndDown');
+				   icon: (aPresenter partInterface part iconNamed: 'tscroll');
 				   help: (aPresenter aPartTranslate: 'Add a scroll layout') ]) }
 ]
 

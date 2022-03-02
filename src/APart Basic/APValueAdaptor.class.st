@@ -47,12 +47,6 @@ APValueAdaptor >> changed: anAspectSymbol [
 	super changed: anAspectSymbol
 ]
 
-{ #category : #changing }
-APValueAdaptor >> changedWithoutIngoring: anAspectSymbol [
-
-	super changed: anAspectSymbol
-]
-
 { #category : #private }
 APValueAdaptor >> ignoreChangesWhile: aBlock [
 

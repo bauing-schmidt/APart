@@ -38,7 +38,7 @@ APartDatePatternFormatterTest >> fieldsHandlerEnGB [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 APartDatePatternFormatterTest >> multiAssert: aCollection fieldsHandler: aHandler [
 	aCollection
 		do: [ :assoc | 
@@ -55,7 +55,7 @@ APartDatePatternFormatterTest >> testCsCZLocale [
 				add:
 					'yyyy.MM.dd G ''na'' HH:mm:ss z'
 						-> '2001.07.04 po Kr. na 12:08:56 PDT';
-				add: 'EEE, MMM d, ''''yy' -> 'Stř, čvc 4, ''01';
+				add: 'EEE, MMM d, ''''yy' -> 'St, čvc 4, ''01';
 				add: 'h:mm a' -> '12:08 PM';
 				add: 'hh ''hodin'' a, zzzz' -> '12 hodin PM, Tichomořský letní čas';
 				add: 'K:mm a, z' -> '0:08 PM, PDT';
@@ -76,7 +76,7 @@ APartDatePatternFormatterTest >> testDeDELocale [
 				add:
 					'yyyy.MM.dd G ''um'' HH:mm:ss z'
 						-> '2001.07.04 n. Chr. um 12:08:56 PDT';
-				add: 'EEE, MMM d, ''''yy' -> 'Mit, Jul 4, ''01';
+				add: 'EEE, MMM d, ''''yy' -> 'Mi, Jul 4, ''01';
 				add: 'h:mm a' -> '12:08 PM';
 				add: 'hh ''Uhr'' a, zzzz' -> '12 Uhr PM, Pazifische Tageslichtzeit';
 				add: 'K:mm a, z' -> '0:08 PM, PDT';

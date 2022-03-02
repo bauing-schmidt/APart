@@ -29,12 +29,6 @@ APartInterface class >> pathFromKey: aKey [
 ]
 
 { #category : #'API Action' }
-APartInterface >> acceptActionPaths [
-
-	shallAcceptActionPaths := true
-]
-
-{ #category : #'API Action' }
 APartInterface >> actionAdaptorFor: aKey client: aClient  ifAbsent: absentBlock [
 
 	| action |
@@ -131,12 +125,6 @@ APartInterface >> aspectBuildRedirectionKey [
 APartInterface >> aspectBuilder [
 
 	^aspectBuilder
-]
-
-{ #category : #accessing }
-APartInterface >> aspectConditionChanges [
-
-	^ aspectConditionChanges
 ]
 
 { #category : #announcements }
@@ -252,23 +240,23 @@ APartInterface >> computeAnnouncedStatesTo: aCollection for: k part: targetPart 
 APartInterface >> createAspectNamed: aKey build: aBuildBlock [
 
 	self description checkForAspectRedefinition: aKey.
-	^self description defineAspectWithoutRedefinitionCheck: (APAspect named: aKey for: (aBuildBlock value: aspectBuilder)) as: aKey
+	^self description addAspectWithoutRedefinitionCheck: (APAspect named: aKey for: (aBuildBlock value: aspectBuilder)) as: aKey
 ]
 
 { #category : #'API building' }
 APartInterface >> createListHolderAspectNamed: aKey build: aBuildBlock [
 
 	self description checkForAspectRedefinition: aKey.
-	^self description defineAspectWithoutRedefinitionCheck: (APAspect named: aKey for: (aBuildBlock value: aspectBuilder)) as: aKey
+	^self description addAspectWithoutRedefinitionCheck: (APAspect named: aKey for: (aBuildBlock value: aspectBuilder)) as: aKey
 ]
 
-{ #category : #'API building' }
+{ #category : #'API Menu' }
 APartInterface >> createMenuForKey: menuKey [
 
 	self createMenuForKey: menuKey use: (part aPartPerform: menuKey)
 ]
 
-{ #category : #'API building' }
+{ #category : #'API Menu' }
 APartInterface >> createMenuForKey: menuKey concatenateEnumParts: enumParts [
 
 	| menuParts |
@@ -283,33 +271,10 @@ APartInterface >> createMenuForKey: menuKey concatenateEnumParts: enumParts [
 			m]
 ]
 
-{ #category : #'API building' }
-APartInterface >> createMenuForKey: menuKey labels: labelsCollection values: valuesCollection [
-
-	menus at: menuKey
-		put: (aspectBuilder createMenuFromLabels: labelsCollection
-				values: valuesCollection)
-]
-
-{ #category : #'API building' }
+{ #category : #'API Menu' }
 APartInterface >> createMenuForKey: menuKey use: enumPart [
 
 	menus at: menuKey put: (aspectBuilder createMenuBlockForPart: enumPart)
-]
-
-{ #category : #'API building' }
-APartInterface >> createMenuForMenuButton: menuKey [
-	"use this creation method for MenuButtons and ComboBoxes"
-
-
-	self createMenuForMenuButton: menuKey use: (part aPartPerform: menuKey)
-]
-
-{ #category : #'API building' }
-APartInterface >> createMenuForMenuButton: menuKey use: enumValuePart [
-	"use this creation method for MenuButtons and ComboBoxes"
-
-	menus at: menuKey put: (aspectBuilder createMenuBlockForMenuButton: enumValuePart)
 ]
 
 { #category : #'API Action' }
@@ -457,7 +422,6 @@ APartInterface >> initialize [
 	aspectConditionChanges := Dictionary new.
 	menus := Dictionary new.
 	utilityObjects := Dictionary new.
-	shallAcceptActionPaths := false.
 ]
 
 { #category : #'initialize-release' }
@@ -492,25 +456,6 @@ APartInterface >> menuFor: aKey ifAbsent: absentBlock [
 					menu := sc menuFor: aKey ifAbsent: [].
 					menu notNil ifTrue: [^menu]].
 			^absentBlock value]
-]
-
-{ #category : #'API Menu' }
-APartInterface >> openMenu: aMenu itemValueDo: aOneArgBlock [
-
-	| clientsSet |
-	clientsSet := self registeredClientsForClientType: #GUI.
-	clientsSet notEmpty
-		ifTrue: 
-			[clientsSet any ownerDo: [:o | o openMenu: aMenu itemValueDo: aOneArgBlock]]
-]
-
-{ #category : #'API Menu' }
-APartInterface >> openMenu: aMenu itemValueDo: aOneArgBlock atPosition: aPoint [
-	| clientsSet |
-	clientsSet := self registeredClientsForClientType: #GUI.
-	clientsSet notEmpty
-		ifTrue: [ clientsSet any
-				ownerDo: [ :o | o openMenu: aMenu itemValueDo: aOneArgBlock atPosition: aPoint] ]
 ]
 
 { #category : #'API Menu' }
@@ -566,37 +511,12 @@ APartInterface >> privateExecute: anAction for: aPart with: anArgument [
 			result]
 ]
 
-{ #category : #'API events' }
-APartInterface >> processEvent: anEvent type: eventType subtype: subtype [
-
-	| eventActionNames | 
-	
-	eventActionNames := self description actionNamesForEventType: eventType subtype: subtype ifAbsent: [ Array new ].
-	
-	eventActionNames do: [ :actionName |
-		self execute: actionName with: anEvent ifDisabled: [  ].
-		anEvent processedByChild: true ].
-]
-
 { #category : #'API Action' }
 APartInterface >> putTrigger: aTriggerActionWithKey [
 
 	aTriggerActionWithKey checkConsistencyForPart: part
 		ifNotDo: [:msg | self error: msg].
-	^self description defineActionWithoutRedefinitionCheck: aTriggerActionWithKey
-]
-
-{ #category : #'API events' }
-APartInterface >> raiseEvent: anAPEvent type: eventType [
-
-	self raiseEvent: anAPEvent type: eventType subtype: nil
-]
-
-{ #category : #'API events' }
-APartInterface >> raiseEvent: anAPEvent type: eventType subtype: subtype [
-
-	self processEvent: anAPEvent type: eventType subtype: subtype.
-	self part parentPart ifNotNil: [ :aPart | aPart partInterface raiseEvent: anAPEvent type: eventType subtype: subtype ]
+	^self description addActionWithoutRedefinitionCheck: aTriggerActionWithKey
 ]
 
 { #category : #'API Action' }

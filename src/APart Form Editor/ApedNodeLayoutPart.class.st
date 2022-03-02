@@ -30,6 +30,12 @@ ApedNodeLayoutPart class >> layoutName [
 ]
 
 { #category : #accessing }
+ApedNodeLayoutPart >> accept: anApedVisitor [
+
+	anApedVisitor visitNodeLayout: self
+]
+
+{ #category : #accessing }
 ApedNodeLayoutPart >> elementIDs [ 
 
 	^ { presenterId value }

@@ -4,7 +4,8 @@ Class {
 	#traits : 'TAPartPresenter',
 	#classTraits : 'TAPartPresenter classTrait',
 	#instVars : [
-		'#message => SpObservableSlot'
+		'#message => ObservableSlot',
+		'#lastMessage'
 	],
 	#category : #'APart Pharo'
 }
@@ -34,6 +35,19 @@ APartStatusBarPresenter >> enabled: aBoolean [
 ]
 
 { #category : #accessing }
+APartStatusBarPresenter >> localeChanged: anAnnouncement [
+
+	| localized |
+	
+	localized := lastMessage   
+		ifNil: [ '' ] 
+		ifNotNil: [ lastMessage localizedForPresenter: self ].
+	
+	self message: localized.
+	self changed: #pushMessage
+]
+
+{ #category : #accessing }
 APartStatusBarPresenter >> message [
 	^ message
 ]
@@ -54,6 +68,8 @@ APartStatusBarPresenter >> popMessage [
 APartStatusBarPresenter >> pushMessage: aString [ 
 	
 	| localized | 
+	
+	lastMessage := aString.
 	
 	localized := aString  
 		ifNil: [ '' ] 

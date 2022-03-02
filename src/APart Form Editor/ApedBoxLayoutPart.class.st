@@ -27,6 +27,12 @@ ApedBoxLayoutPart class >> layoutName [
 	^ 'Box'
 ]
 
+{ #category : #visiting }
+ApedBoxLayoutPart >> accept: anApedVisitor [
+
+	anApedVisitor visitBoxLayout: self
+]
+
 { #category : #'initialize-release' }
 ApedBoxLayoutPart >> aspectsEnumeration [
 

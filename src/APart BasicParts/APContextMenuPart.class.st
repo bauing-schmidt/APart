@@ -81,6 +81,8 @@ APContextMenuPart >> assign: aPart to: anActionName [
 { #category : #'API member groups' }
 APContextMenuPart >> canAcceptMemberGroup: anAPMemberRefGroup [
 
+	"limit exposing part to be sure the right context menu is used"
+
 	^ (self groupsIDs includes: anAPMemberRefGroup type) and: [ 
 		self parentPart = anAPMemberRefGroup part or: [
 			self parentPart = anAPMemberRefGroup part parentPart ] ]

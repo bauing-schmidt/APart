@@ -22,6 +22,12 @@ ApedLabelPresenterPart class >> label [
 	^ 'Label'
 ]
 
+{ #category : #visiting }
+ApedLabelPresenterPart >> accept: anApedVisitor [
+
+	anApedVisitor visitLabel: self
+]
+
 { #category : #accessing }
 ApedLabelPresenterPart >> initOnJson: aJsonObj [
 

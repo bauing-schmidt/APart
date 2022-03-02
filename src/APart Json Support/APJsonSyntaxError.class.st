@@ -6,15 +6,20 @@ Spezielle Error-Klasse für Syntaxfehler im Json-String.
 Class {
 	#name : #APJsonSyntaxError,
 	#superclass : #Error,
+	#instVars : [
+		'filename'
+	],
 	#category : #'APart Json Support'
 }
 
-{ #category : #printing }
-APJsonSyntaxError >> printOn: s [
+{ #category : #accessing }
+APJsonSyntaxError >> filename [
 
-	super printOn: s.
-	s
-		nextPut: $(;
-		nextPutAll: messageText;
-		nextPut: $)
+	^ filename
+]
+
+{ #category : #accessing }
+APJsonSyntaxError >> filename: anObject [
+
+	filename := anObject
 ]

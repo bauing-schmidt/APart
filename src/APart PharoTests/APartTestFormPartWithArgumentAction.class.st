@@ -1,6 +1,9 @@
 Class {
 	#name : #APartTestFormPartWithArgumentAction,
 	#superclass : #APartTestFormPart,
+	#instVars : [
+		'actionMenu'
+	],
 	#category : #'APart PharoTests-Support'
 }
 

@@ -274,7 +274,7 @@ APRsBoardPart >> limitCanvasCamera [
 	| cam contentRect cameraRect y |
 	
 	cam := self canvasCamera.
-	contentRect := self encompassingRectangle.
+	contentRect := 0@0 corner: self encompassingRectangle bottomRight.
 	cameraRect := cam position extent: (canvas extent / cam scale).
 			
 	y := (cameraRect bottomRight y min: contentRect bottomRight y) - (canvas extent y / cam scale).

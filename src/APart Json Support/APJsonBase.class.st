@@ -53,11 +53,15 @@ APJsonBase >> = other [
 { #category : #API }
 APJsonBase >> atName: aName [
 
+	<ignoreForCoverage>
+
 	self subclassResponsibility 
 ]
 
 { #category : #API }
 APJsonBase >> atName: aName ifAbsent: aBlock [
+
+	<ignoreForCoverage>
 
 	self subclassResponsibility 
 ]
@@ -123,6 +127,8 @@ APJsonBase >> deepCopy [
 { #category : #comparing }
 APJsonBase >> hasSameValuesAs: other [
 	
+	<ignoreForCoverage>
+
 	self subclassResponsibility 
 ]
 
@@ -130,6 +136,8 @@ APJsonBase >> hasSameValuesAs: other [
 APJsonBase >> hash [
 	"Necessary because of implementing #= "
 	
+	<ignoreForCoverage>
+
 	self subclassResponsibility 
 ]
 
@@ -157,6 +165,8 @@ APJsonBase >> printJsonKey: aString on: aStream [
 
 { #category : #API }
 APJsonBase >> printJsonOn: aStream [
+
+	<ignoreForCoverage>
 
 	self subclassResponsibility
 ]

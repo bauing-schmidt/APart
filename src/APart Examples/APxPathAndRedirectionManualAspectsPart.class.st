@@ -25,7 +25,6 @@ APxPathAndRedirectionManualAspectsPart >> initializeValues [
 	enabled := true.
 	partL1 := APxPathAndRedirectionSubPartL1ManualAspect onPart: self
 				key: #partL1.
-	partL1 partInterface acceptActionPaths.
 	partL1 setStatefulConditionOn: self isEnabled.
 	attachedObject := APxPathAndRedirectionObject new.
 	attachedObject name: 'Attached to root'.

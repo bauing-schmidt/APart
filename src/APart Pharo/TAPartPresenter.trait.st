@@ -74,61 +74,72 @@ TAPartPresenter >> createMenuItemsForTagNode: enumTagNode use: menuPart adaptor:
 
 	| items item submenu |
 	items := OrderedCollection new.
-	enumTagNode childrenNodes do: 
-			[:tagNode | 
-			item := SpMenuItemPresenter new.
-			item name: ((menuPart enumeration textFromKeyBlock
-								ifNotNil: [:block | block value: tagNode tag]
-								ifNil: [tagNode tag]) localizedForPresenter: self).
-			submenu := SpMenuPresenter new.
-			item subMenu: submenu.
-			submenu addGroup: [ :group | 
-			(self createMenuItemsForTagNode: tagNode use: menuPart adaptor: aValueAdaptor)
-				do: [:resItem | group addMenuItem: resItem] ].
-			items add: item].
-	enumTagNode childrenKeys do: 
-			[:k | 
-			| anIcon | 
-			item := SpMenuItemPresenter new.
-			item name: ((menuPart enumeration textFromKeyBlock
-								ifNotNil: [:block | block value: k]
-								ifNil: [k]) localizedForPresenter: self).
-			"((APartDeferredTranslation for: (menuPart enumerationTextForKey: k) in: 'Documaps') localizedForPresenter: self).
-			"(menuPart enumerationActionForKey: k)
-				ifNotNil: [:action | item action: (self valueBlockForActionObject: action interface: menuPart targetInterface"partInterface")]
-				ifNil: 
-					[(menuPart enumerationValueForKey: k)
-						ifNotNil: 
-							[:v | 
-							item
-								action: [ menuPart value: (menuPart enumeration valueForKey: k) from: menuPart enumeration ]]
-						ifNil: [self aPartError: #wrongEnumerationValue text: 'Menu from Enumeration needs either action or value']].
-			item enabled: [
-				| actionKey anAction  |
-				actionKey := (menuPart enumerationActionForKey: k).
-				(actionKey isKindOf: APRedirectedAction)
-					ifTrue: [ 
-						actionKey isExecutable]
-					ifFalse: [  
-						anAction := nil.
-						actionKey ifNotNil: [ 
-							anAction := (menuPart targetInterface description actionAt: actionKey ifAbsent: [ nil ]).
-						anAction 
+	enumTagNode childrenNodes do: [ :tagNode | 
+		item := SpMenuItemPresenter new.
+		item name: ((menuPart enumeration textFromKeyBlock
+				  ifNotNil: [ :block | block value: tagNode tag ]
+				  ifNil: [ tagNode tag ]) localizedForPresenter: self).
+		submenu := SpMenuPresenter new.
+		item subMenu: submenu.
+		submenu addGroup: [ :group | 
+			(self
+				 createMenuItemsForTagNode: tagNode
+				 use: menuPart
+				 adaptor: aValueAdaptor) do: [ :resItem | 
+				group addMenuItem: resItem ] ].
+		items add: item ].
+	enumTagNode childrenKeys do: [ :k | 
+		| anIcon |
+		item := SpMenuItemPresenter new.
+		item name: ((menuPart enumeration textFromKeyBlock
+				  ifNotNil: [ :block | block value: k ]
+				  ifNil: [ k ]) localizedForPresenter: self).
+		"((APartDeferredTranslation for: (menuPart enumerationTextForKey: k) in: 'Documaps') localizedForPresenter: self).
+			"
+		(menuPart enumerationActionForKey: k)
+			ifNotNil: [ :action | 
+				item action: (self
+						 valueBlockForActionObject: action
+						 interface: menuPart targetInterface) "partInterface" ]
+			ifNil: [ 
+				(menuPart enumerationValueForKey: k)
+					ifNotNil: [ :v | 
+						item action: [ 
+							menuPart
+								value: (menuPart enumeration valueForKey: k)
+								from: menuPart enumeration ] ]
+					ifNil: [ 
+						self
+							aPartError: #wrongEnumerationValue
+							text: 'Menu from Enumeration needs either action or value' ] ].
+		item enabled: [ 
+			| actionKey anAction |
+			actionKey := menuPart enumerationActionForKey: k.
+			(actionKey isKindOf: APRedirectedAction)
+				ifTrue: [ 
+					actionKey action traceCr.
+					actionKey isExecutable. ]
+				ifFalse: [ 
+					anAction := nil.
+					actionKey ifNotNil: [ 
+						anAction := menuPart targetInterface description
+							            actionAt: actionKey
+							            ifAbsent: [ nil ].
+						anAction
 							ifNotNil: [ 
 								anAction updateCondition.
-								(menuPart enumerationIsActiveAtKey: k) and: [ anAction isExecutable ]]
-							ifNil: [ 
-								menuPart enumerationIsActiveAtKey: k ] ] ].
-				"menuPart enumerationIsActiveAtKey: k"].
-			"item indication: [menuPart enumerationIsIndicatedOnAtKey: k].
+								(menuPart enumerationIsActiveAtKey: k) and: [ 
+									anAction isExecutable ] ]
+							ifNil: [ menuPart enumerationIsActiveAtKey: k ] ] ]
+			"menuPart enumerationIsActiveAtKey: k" ].
+		"item indication: [menuPart enumerationIsIndicatedOnAtKey: k].
 			item labelImage: [menuPart enumerationIconForKey: k]."
-			
-			anIcon := menuPart enumeration iconFromKeyBlock ifNotNil: [:block | block value: k].
-			anIcon ifNotNil: [
-				item icon: anIcon ].
-			items add: item ].
-	^items
-	
+
+		anIcon := menuPart enumeration iconFromKeyBlock ifNotNil: [ :block | 
+			          block value: k ].
+		anIcon ifNotNil: [ item icon: anIcon ].
+		items add: item ].
+	^ items
 ]
 
 { #category : #accessing }

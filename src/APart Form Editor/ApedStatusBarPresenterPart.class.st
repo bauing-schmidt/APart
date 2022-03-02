@@ -19,6 +19,12 @@ ApedStatusBarPresenterPart class >> label [
 	^ 'Status bar'
 ]
 
+{ #category : #visiting }
+ApedStatusBarPresenterPart >> accept: anApedVisitor [
+
+	anApedVisitor visitStatusBar: self
+]
+
 { #category : #preview }
 ApedStatusBarPresenterPart >> newPreviewPresenterOn: aPresenter [
 

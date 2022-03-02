@@ -23,6 +23,12 @@ ApedListPresenterPart class >> label [
 	^ 'List'
 ]
 
+{ #category : #visiting }
+ApedListPresenterPart >> accept: anApedVisitor [
+
+	anApedVisitor visitList: self
+]
+
 { #category : #accessing }
 ApedListPresenterPart >> allowToSelect [
 	^ allowToSelect

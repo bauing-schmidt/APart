@@ -26,5 +26,8 @@ APMaCodeChange class >> isAbstract [
 
 { #category : #accessing }
 APMaCodeChange >> apply [
+
+	<ignoreForCoverage>
+
 	self subclassResponsibility
 ]

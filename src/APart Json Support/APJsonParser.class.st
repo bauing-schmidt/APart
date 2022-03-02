@@ -6,7 +6,10 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'stream',
-		'shallUseDictionaries'
+		'shallUseDictionaries',
+		'lastLineStream',
+		'lastEndOfLinePos',
+		'lineCount'
 	],
 	#category : #'APart Json Support'
 }
@@ -86,7 +89,16 @@ APJsonParser >> addValue: anObject to: aCollection [
 { #category : #private }
 APJsonParser >> consumeWhitespace [
 
-	[stream atEnd not and: [stream peek isSeparator]] whileTrue: [stream next]
+	[stream atEnd not and: [stream peek isSeparator]] whileTrue: [ | c |
+		c := self nextChar.
+		(c = Character cr and: [ stream peek = Character lf ]) ifTrue: [ 
+			"Avoid counting a line twice in Windows"
+			c := self nextChar.
+		].
+		(c = Character cr or: [ c = Character lf ]) ifTrue: [
+			self registerEndOfLine: c
+		].
+	]
 ]
 
 { #category : #creating }
@@ -139,12 +151,28 @@ APJsonParser >> createTrue [
 	^true
 ]
 
-{ #category : #private }
-APJsonParser >> error: aString [
+{ #category : #'error handling' }
+APJsonParser >> error: errorString [
 
-	^APJsonSyntaxError
-		signal: aString , ' at position ' , stream position printString
-				, ' before ' , (stream next: 30) printString
+	| streamPos streamContents lastLine msg |
+	streamPos := stream position.
+	streamContents := stream contents.
+	lastLine := streamContents copyFrom: streamPos - lastEndOfLinePos + 1 to: streamContents size.
+	lastLine size > 200
+		ifTrue: [ lastLine := '...' , (lastLine copyFrom: lastLine size - 200 to: lastLine size) ].
+	msg := String new writeStreamDo: [ :s |
+		s << errorString;
+			cr;
+			<< 'at line ';
+			<< lineCount asString;
+			<< ', line offset ';
+			<< lastLine size asString;
+			<< ' (absolute offset ';
+			<< streamPos asString;
+			<< '):';
+			contents
+	]. 
+	^APJsonSyntaxError signal: msg
 ]
 
 { #category : #private }
@@ -158,7 +186,10 @@ APJsonParser >> initializeOn: aStream [
 
 	self initialize.
 	stream := aStream.
-	shallUseDictionaries := false
+	shallUseDictionaries := false.
+	lastEndOfLinePos := 0.
+	lineCount := 1.
+	self recreateLastLineStream.
 ]
 
 { #category : #private }
@@ -168,12 +199,22 @@ APJsonParser >> match: aString [
 	position := stream position.
 	aString do: 
 			[:each |
-			(stream atEnd or: [stream next ~= each])
+			(stream atEnd or: [self nextChar ~= each])
 				ifTrue: 
 					[stream position: position.
 					^false]].
 	self consumeWhitespace.
 	^true
+]
+
+{ #category : #private }
+APJsonParser >> nextChar [ 
+
+	| c |
+	c := stream next.
+	lastLineStream nextPut: c.
+	^ c
+	
 ]
 
 { #category : #parsing }
@@ -206,8 +247,8 @@ APJsonParser >> parseArray [
 APJsonParser >> parseCharacter [
 
 	| char |
-	(char := stream next) = $\ ifFalse: [^char].
-	(char := stream next) = $" ifTrue: [^char].
+	(char := self nextChar) = $\ ifFalse: [^char].
+	(char := self nextChar) = $" ifTrue: [^char].
 	char = $\ ifTrue: [^char].
 	char = $/ ifTrue: [^char].
 	char = $b ifTrue: [^Character backspace].
@@ -234,7 +275,7 @@ APJsonParser >> parseCharacterHexDigit [
 	| digit |
 	stream atEnd
 		ifFalse: 
-			[digit := stream next asInteger.
+			[digit := self nextChar asInteger.
 			(digit between: 48 and: 57) ifTrue: [^digit - 48].	"$0 - $9"
 			(digit between: 65 and: 70) ifTrue: [^digit - 55].	"$A - $F"
 			(digit between: 97 and: 102) ifTrue: [^digit - 87]	"$a - $f"].
@@ -246,7 +287,7 @@ APJsonParser >> parseNumber [
 
 	| negated number |
 	negated := stream peek = $-.
-	negated ifTrue: [stream next].
+	negated ifTrue: [self nextChar].
 	number := self parseNumberInteger.
 	stream peek = $.
 		ifTrue: 
@@ -254,7 +295,7 @@ APJsonParser >> parseNumber [
 			number := number + self parseNumberFraction].
 	(stream peek = $e or: [stream peek = $E])
 		ifTrue: 
-			[stream next.
+			[self nextChar.
 			number := number * self parseNumberExponent].
 	negated ifTrue: [number := number negated].
 	^self
@@ -268,9 +309,9 @@ APJsonParser >> parseNumberExponent [
 	| number negated |
 	number := 0.
 	negated := stream peek = $-.
-	(negated or: [stream peek = $+]) ifTrue: [stream next].
+	(negated or: [stream peek = $+]) ifTrue: [self nextChar].
 	[stream atEnd not and: [stream peek isDigit]]
-		whileTrue: [number := 10 * number + (stream next asInteger - 48)].
+		whileTrue: [number := 10 * number + (self nextChar asInteger - 48)].
 	negated ifTrue: [number := number negated].
 	^10 raisedTo: number
 ]
@@ -282,7 +323,7 @@ APJsonParser >> parseNumberFraction [
 	number := 0.
 	power := 1.0.
 	[stream atEnd not and: [stream peek isDigit]] whileTrue: 
-			[number := 10 * number + (stream next asInteger - 48).
+			[number := 10 * number + (self nextChar asInteger - 48).
 			power := power * 10.0].
 	^number / power
 ]
@@ -293,7 +334,7 @@ APJsonParser >> parseNumberInteger [
 	| number |
 	number := 0.
 	[stream atEnd not and: [stream peek isDigit]]
-		whileTrue: [number := 10 * number + (stream next asInteger - 48)].
+		whileTrue: [number := 10 * number + (self nextChar asInteger - 48)].
 	^number
 ]
 
@@ -365,6 +406,21 @@ APJsonParser >> parseValue [
 	(self match: 'false') ifTrue: [^self createFalse].
 	(self match: 'null') ifTrue: [^self createNull].
 	self error: 'Unexpected token starting with ' , char printString
+]
+
+{ #category : #private }
+APJsonParser >> recreateLastLineStream [
+
+	lastLineStream := String new writeStream
+]
+
+{ #category : #private }
+APJsonParser >> registerEndOfLine: c [
+
+	lastEndOfLinePos := stream position.
+	lineCount := lineCount + 1.
+	self recreateLastLineStream.
+	
 ]
 
 { #category : #initialization }

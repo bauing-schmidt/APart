@@ -15,6 +15,8 @@ Class {
 { #category : #API }
 APPromptExecutor class >> clientTypes [
 
+	<ignoreForCoverage>
+
 	self subclassResponsibility
 ]
 
@@ -38,11 +40,15 @@ APPromptExecutor class >> on: aClient [
 { #category : #'API prompts' }
 APPromptExecutor >> confirmEnumValue: aPromptPart [
 
+	<ignoreForCoverage>
+
 	self subclassResponsibility
 ]
 
 { #category : #'API prompts' }
 APPromptExecutor >> confirmYesNo: aPromptPart [
+
+	<ignoreForCoverage>
 
 	self subclassResponsibility
 ]
@@ -74,6 +80,8 @@ APPromptExecutor >> initOn: aClient [
 { #category : #'API prompts' }
 APPromptExecutor >> multiChoice: aPromptPart [
 
+	<ignoreForCoverage>
+
 	self subclassResponsibility
 ]
 
@@ -88,6 +96,8 @@ APPromptExecutor >> noticeExecutionOfTrigger: triggerKey forPrompt: aPromptPart 
 { #category : #'API prompts' }
 APPromptExecutor >> openModal: aPromptPart [
 
+	<ignoreForCoverage>
+	
 	self subclassResponsibility
 ]
 
@@ -119,11 +129,15 @@ APPromptExecutor >> postOpenAction: aBlock [
 { #category : #'API prompts' }
 APPromptExecutor >> reportConfirmationYesNo: aPromptPart [
 
+	<ignoreForCoverage>
+
 	self subclassResponsibility
 ]
 
 { #category : #'API prompts' }
 APPromptExecutor >> requestColorValue: aPromptPart [
+
+	<ignoreForCoverage>
 
 	self subclassResponsibility
 ]
@@ -131,11 +145,15 @@ APPromptExecutor >> requestColorValue: aPromptPart [
 { #category : #'API prompts' }
 APPromptExecutor >> requestExistingFilename: aPromptPart [
 
+	<ignoreForCoverage>
+
 	self subclassResponsibility
 ]
 
 { #category : #'API prompts' }
 APPromptExecutor >> requestNewFilename: aPromptPart [
+
+	<ignoreForCoverage>
 
 	self subclassResponsibility
 ]
@@ -143,11 +161,15 @@ APPromptExecutor >> requestNewFilename: aPromptPart [
 { #category : #'API prompts' }
 APPromptExecutor >> singleChoice: aPromptPart [
 
+	<ignoreForCoverage>
+
 	self subclassResponsibility
 ]
 
 { #category : #'API prompts' }
 APPromptExecutor >> singleChoiceButtons: aPromptPart [
+
+	<ignoreForCoverage>
 
 	self subclassResponsibility
 ]
@@ -155,11 +177,15 @@ APPromptExecutor >> singleChoiceButtons: aPromptPart [
 { #category : #'API prompts' }
 APPromptExecutor >> text: aPromptPart [
 
+	<ignoreForCoverage>
+
 	self subclassResponsibility
 ]
 
 { #category : #'API prompts' }
 APPromptExecutor >> warning: aPromptPart [
+
+	<ignoreForCoverage>
 
 	self subclassResponsibility
 ]

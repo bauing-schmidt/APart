@@ -29,6 +29,12 @@ ApedRadioButtonPresenterPart class >> label [
 	^ 'Radio button'
 ]
 
+{ #category : #visiting }
+ApedRadioButtonPresenterPart >> accept: anApedVisitor [
+
+	anApedVisitor visitRadioButton: self
+]
+
 { #category : #preview }
 ApedRadioButtonPresenterPart >> defineAspects [ 
 

@@ -37,15 +37,6 @@ APUseCaseAction class >> key: actionKey useCase: aUseCase [
 ]
 
 { #category : #API }
-APUseCaseAction >> createRecordedInteraction [
-
-	^(APRecordedInteraction action)
-		key: key;
-		value: self;
-		yourself
-]
-
-{ #category : #API }
 APUseCaseAction >> executeWith: args [
 
 	| ucClone ucResult |

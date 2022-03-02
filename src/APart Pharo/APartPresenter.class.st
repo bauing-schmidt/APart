@@ -767,11 +767,6 @@ APartPresenter >> notifyPartAboutMyself [
 ]
 
 { #category : #actions }
-APartPresenter >> openMenu: aMenu itemValueDo: aOneArgBlock [
-self openMenu: aMenu itemValueDo: aOneArgBlock atPosition: self currentHand lastEvent cursorPoint
-]
-
-{ #category : #actions }
 APartPresenter >> openMenu: aMenu itemValueDo: aOneArgBlock atPosition: aPoint [
 	| menuPresenter selectedItem |
 	selectedItem := nil.

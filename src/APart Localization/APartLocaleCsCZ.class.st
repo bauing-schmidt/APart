@@ -29,11 +29,11 @@ APartLocaleCsCZ >> eras [
 
 { #category : #utilities }
 APartLocaleCsCZ >> longDayOfWeek: value [
-	^ #(úterý Středa čtvrtek Pátek Sobota Neděle Pondělí)
-		at: value - self weekStart
+	^ #( Neděle Pondělí Úterý Středa Čtvrtek Pátek Sobota )
+		at: value
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #utilities }
 APartLocaleCsCZ >> longTimeZoneName: value decoded: aString [
 	^ Dictionary new
 		at: 'Universal Time' put: 'Univerzální čas';
@@ -145,15 +145,14 @@ APartLocaleCsCZ >> primTimezone [
 	^ 01*60
 ]
 
+{ #category : #utilities }
+APartLocaleCsCZ >> shortDayOfWeek: value [
+	^ (self longDayOfWeek: value) copyFrom: 1 to: 2
+]
+
 { #category : #'system primitives' }
 APartLocaleCsCZ >> shortMonthNames [
 
 	^ #('led' 'ún' 'bře' 'dub' 'kvě' 'čvn' 'čvc' 'srp' 'zář' 'říj' 'lis' 'pro')
 	
-]
-
-{ #category : #'system primitives' }
-APartLocaleCsCZ >> weekStart [
-
-	^ 2
 ]

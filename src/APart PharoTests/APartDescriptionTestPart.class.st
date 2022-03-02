@@ -5,7 +5,8 @@ Class {
 	#name : #APartDescriptionTestPart,
 	#superclass : #APart,
 	#instVars : [
-		'autoAspects'
+		'autoAspects',
+		'state'
 	],
 	#category : #'APart PharoTests-Support'
 }
@@ -43,4 +44,16 @@ APartDescriptionTestPart >> initialize [
 
 	super initialize.
 	autoAspects := super autoAspectDefinition.
+]
+
+{ #category : #accessing }
+APartDescriptionTestPart >> state [
+
+	^ state
+]
+
+{ #category : #accessing }
+APartDescriptionTestPart >> state: anObject [
+
+	state := anObject
 ]

@@ -27,6 +27,12 @@ ApedGridLayoutPart class >> layoutName [
 	^ 'Grid'
 ]
 
+{ #category : #visiting }
+ApedGridLayoutPart >> accept: anApedVisitor [
+
+	anApedVisitor visitGridLayout: self
+]
+
 { #category : #accessing }
 ApedGridLayoutPart >> borderWidth [
 	^ borderWidth

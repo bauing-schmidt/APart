@@ -29,11 +29,11 @@ APartLocaleDeDE >> eras [
 
 { #category : #utilities }
 APartLocaleDeDE >> longDayOfWeek: value [
-	^ #(Dienstag Mittwoch Donnerstag Freitag Samstag Sonntag Montag)
-		at: value - self weekStart
+	^ #(Sonntag Montag Dienstag Mittwoch Donnerstag Freitag Samstag)
+		at: value
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #utilities }
 APartLocaleDeDE >> longTimeZoneName: value decoded: aString [
 	^ Dictionary new
 		at: 'Universal Time' put: 'Weltzeit';
@@ -146,14 +146,13 @@ APartLocaleDeDE >> primTimezone [
 	^ 01*60
 ]
 
+{ #category : #utilities }
+APartLocaleDeDE >> shortDayOfWeek: value [
+	^ (self longDayOfWeek: value) copyFrom: 1 to: 2
+]
+
 { #category : #'system primitives' }
 APartLocaleDeDE >> shortMonthNames [
 
 	^ #('Jan' 'Feb' 'Mär' 'Apr' 'Mai' 'Jun' 'Jul' 'Aug' 'Sep' 'Okt' 'Nov' 'Dez')
-]
-
-{ #category : #'system primitives' }
-APartLocaleDeDE >> weekStart [
-
-	^ 2
 ]

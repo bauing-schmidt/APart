@@ -25,6 +25,12 @@ ApedNumberInputFieldPresenterPart class >> label [
 	^ 'Number input filed'
 ]
 
+{ #category : #visiting }
+ApedNumberInputFieldPresenterPart >> accept: anApedVisitor [
+
+	anApedVisitor visitNumberInput: self
+]
+
 { #category : #accessing }
 ApedNumberInputFieldPresenterPart >> climbRate [
 	^ climbRate

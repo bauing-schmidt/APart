@@ -64,7 +64,7 @@ DatePatternFieldHandler >> handle: value [
 	current isEmpty
 		ifTrue: [ self
 				zeroPaddingNumber: value
-				minDigits: (self styleIfLong: [ 1 ] ifShort: [ count ])
+				minDigits: (self isLongPattern ifTrue: [ 1 ] ifFalse: [ count ])
 				maxDigits: count ]
 ]
 
@@ -82,9 +82,9 @@ DatePatternFieldHandler >> handleDayOfMonth: value [
 { #category : #'primitive handling' }
 DatePatternFieldHandler >> handleDayOfWeek: value [
 	| day |
-	day := self
-		styleIfLong: [ self longDayOfWeek: value ]
-		ifShort: [ self shortDayOfWeek: value ].
+	day := self isLongPattern 
+		ifTrue: [ self longDayOfWeek: value ]
+		ifFalse: [ self shortDayOfWeek: value ].
 	current nextPutAll: day
 ]
 
@@ -162,11 +162,11 @@ DatePatternFieldHandler >> handleMinute: value [
 
 { #category : #'primitive handling' }
 DatePatternFieldHandler >> handleMonth: value [
-	self
-		styleIfLong: [ current nextPutAll: (self longMonthName: value) ]
-		ifShort: [ count = 3
-				ifTrue: [ current nextPutAll: (self shortMonthName: value) ]
-				ifFalse: [ self handle: value ] ]
+	self isLongPattern ifTrue: [ 
+		current nextPutAll: (self longMonthName: value)
+	] ifFalse: [ count = 3
+		ifTrue: [ current nextPutAll: (self shortMonthName: value) ]
+		ifFalse: [ self handle: value ] ]
 ]
 
 { #category : #'forwarding handling' }
@@ -197,9 +197,9 @@ DatePatternFieldHandler >> handleYear: value [
 { #category : #'primitive handling' }
 DatePatternFieldHandler >> handleZoneName: value [
 	| zoneName |
-	zoneName := self
-		styleIfLong: [ self longTimeZoneName: value ]
-		ifShort: [ self shortTimeZoneName: value ].
+	zoneName := self isLongPattern
+		ifTrue: [ self longTimeZoneName: value ]
+		ifFalse: [ self shortTimeZoneName: value ].
 	buffer nextPutAll: zoneName
 ]
 
@@ -213,6 +213,12 @@ DatePatternFieldHandler >> handleZoneValue: value [
 		ifFalse: [ width := width + 1 ].
 	v := v // 60 * 100 + (v \\ 60).
 	self zeroPaddingNumber: v length: width
+]
+
+{ #category : #accessing }
+DatePatternFieldHandler >> isLongPattern [ 
+
+	^ count >= 4
 ]
 
 { #category : #'primitive handling' }
@@ -243,13 +249,6 @@ DatePatternFieldHandler >> shortMonthName: value [
 { #category : #'primitive handling' }
 DatePatternFieldHandler >> shortTimeZoneName: value [
 	^ (self timezone: value) abbreviation
-]
-
-{ #category : #utilities }
-DatePatternFieldHandler >> styleIfLong: longBlock ifShort: shortBlock [
-	^ count >= 4
-		ifTrue: longBlock
-		ifFalse: shortBlock
 ]
 
 { #category : #'primitive handling' }

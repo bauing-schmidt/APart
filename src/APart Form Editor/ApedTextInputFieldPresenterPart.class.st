@@ -27,6 +27,12 @@ ApedTextInputFieldPresenterPart class >> label [
 	^ 'Text input field'
 ]
 
+{ #category : #visiting }
+ApedTextInputFieldPresenterPart >> accept: anApedVisitor [
+
+	anApedVisitor visitTextInput: self
+]
+
 { #category : #accessing }
 ApedTextInputFieldPresenterPart >> editable [
 

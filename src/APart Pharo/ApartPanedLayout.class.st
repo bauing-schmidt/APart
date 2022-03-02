@@ -1,20 +1,32 @@
 Class {
-	#name : #ApartPanedLayout,
+	#name : #APartPanedLayout,
 	#superclass : #SpPanedLayout,
 	#instVars : [
-		'resizeChildImage'
+		'initialPosition'
 	],
 	#category : #'APart Pharo'
 }
 
 { #category : #accessing }
-ApartPanedLayout >> resizeChildImage [
+APartPanedLayout >> adapterName [
 
-	^ resizeChildImage
+	^ #APartPanedAdapter
 ]
 
 { #category : #accessing }
-ApartPanedLayout >> resizeChildImage: aBoolean [
+APartPanedLayout >> initialPosition [
 
-	resizeChildImage := aBoolean
+	^ initialPosition
+]
+
+{ #category : #accessing }
+APartPanedLayout >> initialPosition: anObject [
+
+	initialPosition := anObject
+]
+
+{ #category : #accessing }
+APartPanedLayout >> setPositionDeferred: aNumber to: aWidget [
+	
+	"do nothing, the initial position is set explicitly"
 ]

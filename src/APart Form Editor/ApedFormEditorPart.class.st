@@ -592,6 +592,17 @@ ApedFormEditorPart >> formPart [
 	^ self
 ]
 
+{ #category : #'as yet unclassified' }
+ApedFormEditorPart >> generateSpecClass [
+
+	| visitor |
+	visitor := ApedSpecCodeVisitor new.
+	visitor visit: form.
+
+	ApedGeneratedPresenter compile: visitor elementsSource.
+	ApedGeneratedPresenter class compile: visitor layoutSource.
+]
+
 { #category : #'initialize-release' }
 ApedFormEditorPart >> getIconForLayout: aLayoutPart [
 
@@ -655,59 +666,62 @@ ApedFormEditorPart >> increasePositionOf: aPresenter [
 ]
 
 { #category : #initialization }
-ApedFormEditorPart >> initializeActions [ 
+ApedFormEditorPart >> initializeActions [
 
-	| addLayoutCondition removeLayoutCondition  removeElementCondition |
-	
-	addLayoutCondition := APCondition on: [self canAddLayout] ifNot: #layoutTypeNotSelected.
-	removeLayoutCondition := APCondition on: [self canRemoveLayout] ifNot: #layoutTypeNotSelected.
-	removeElementCondition := APCondition on: [self canRemoveElement] ifNot: #elementNotSelected.
+	| addLayoutCondition removeLayoutCondition removeElementCondition |
+	addLayoutCondition := APCondition
+		                      on: [ self canAddLayout ]
+		                      ifNot: #layoutTypeNotSelected.
+	removeLayoutCondition := APCondition
+		                         on: [ self canRemoveLayout ]
+		                         ifNot: #layoutTypeNotSelected.
+	removeElementCondition := APCondition
+		                          on: [ self canRemoveElement ]
+		                          ifNot: #elementNotSelected.
 
 	partInterface description
 		createAction: #removeElements
 		do: [ self removeElements ]
 		if: removeElementCondition.
-								
+
 	partInterface description
 		createAction: #removeSelectedLayouts
 		do: [ self removeSelectedLayouts ]
 		if: removeLayoutCondition.
-						
+
 	partInterface description
 		createAction: #updatePreview
 		do: [ self updatePreview ]
-		if: (APCondition true).
-		
+		if: APCondition true.
+
 	partInterface description
 		createAction: #openPreview
 		do: [ self openPreview ]
-		if: (APCondition true).
-		
+		if: APCondition true.
+
 	partInterface description
 		createAction: #save
 		do: [ self save ]
-		if: (APCondition true).
-		
+		if: APCondition true.
+
 	partInterface description
 		createAction: #saveAs
 		do: [ self saveAs ]
-		if: (APCondition true).
-		
+		if: APCondition true.
+
 	partInterface description
 		createAction: #open
 		do: [ self open ]
-		if: (APCondition true).
-	
-	self initializeAddElementActions.
+		if: APCondition true.
+
+	self initializeGenerationMenuActions. self initializeAddElementActions.
 	self initializeAddLayoutActions.
-		
+
 	self initializeElementsContextMenuActions.
 	self initializeElementsContextMenu.
 
 	self initializeLayoutsContextMenuActions.
-	self initializeLayoutsContextMenu.
-
-
+	self initializeLayoutsContextMenu
 ]
 
 { #category : #initialization }
@@ -852,6 +866,16 @@ ApedFormEditorPart >> initializeElementsContextMenuActions [
 ]
 
 { #category : #initialization }
+ApedFormEditorPart >> initializeGenerationMenuActions [
+
+	partInterface description
+		createAction: #generateSpecClass
+		do: [ self generateSpecClass ]
+		if: (APCondition on: [ form rootLayout notNil ] ifNot: #noRootLayout)
+		helpText: ''
+]
+
+{ #category : #initialization }
 ApedFormEditorPart >> initializeLayoutsContextMenu [
 
 	layoutsContextMenu := APMenu new.
@@ -934,15 +958,25 @@ ApedFormEditorPart >> initializeLayoutsContextMenuActions [
 { #category : #initialization }
 ApedFormEditorPart >> initializeMainMenu [
 
-	| enum fileEnum editEnum previewEnum |
+	| enum fileEnum editEnum generationEnum previewEnum |
 	self aPartRegisterTranslation: 'aped-mainMenu-file'.
 	self aPartRegisterTranslation: 'aped-file-open'.
 	self aPartRegisterTranslation: 'aped-file-save'.
+	self aPartRegisterTranslation: 'aped-file-saveAs'.	
 	self aPartRegisterTranslation: 'aped-mainMenu-edit'.
+	self aPartRegisterTranslation: 'aped-mainMenu-generation'.
+	self aPartRegisterTranslation: 'aped-mainMenu-preview'.
+	self aPartRegisterTranslation: 'generateSpecClass'.
+	self aPartRegisterTranslation: 'updatePreview'.
+	self aPartRegisterTranslation: 'openPreview'.		
+	self aPartRegisterTranslation: 'copyLayouts'.
+	self aPartRegisterTranslation: 'pasteToLayouts'.		
 
 	enum := APEnumeration named: #ActionEnumeration.
-	enum textFromKeyBlock: [ :k | 
-		APartDeferredTranslation for: k in: 'APart' ].
+	enum textFromKeyBlock: [ :k |
+		GetTextTranslator aPartTranslate: k for: (LocaleID isoString: 'en-GB'). 
+		"APartDeferredTranslation for: k in: 'APart'. "
+		 ].
 	enum actionFromKeyBlock: [ :k | k ].
 	"enum iconFromKeyBlock: [:k| self iconNamed:k]."
 
@@ -967,12 +1001,23 @@ ApedFormEditorPart >> initializeMainMenu [
 	editEnum addEntry:
 		(APEnumEntry on: enum key: #pasteToLayouts asSymbol).
 
+	generationEnum := APEnumeration named: #GenerationMenuEnumeration.
+	generationEnum textFromKeyBlock: [ :k | 
+		APartDeferredTranslation for: k in: 'APart' ].
+	generationEnum actionFromKeyBlock: [ :k | k ].
+	generationEnum addEntry:
+		(APEnumEntry on: enum key: #generateSpecClass asSymbol).
+
 	previewEnum := APEnumeration named: #PreviewMenuEnumeration.
 	fileEnum textFromKeyBlock: [ :k | 
-		APartDeferredTranslation for: k in: 'APart' ].
+		GetTextTranslator aPartTranslate: k for: (LocaleID isoString: 'en-GB'). 
+		"APartDeferredTranslation for: k in: 'APart'. "
+		 ].
 	previewEnum actionFromKeyBlock: [ :k | k ].
-	previewEnum addEntry: (APEnumEntry on: enum key: #updatePreview asSymbol).
-	previewEnum addEntry: (APEnumEntry on: enum key: #openPreview asSymbol).
+	previewEnum addEntry:
+		(APEnumEntry on: enum key: #updatePreview asSymbol).
+	previewEnum addEntry:
+		(APEnumEntry on: enum key: #openPreview asSymbol).
 
 	APEnumEntrySubEnumeration
 		addUnder: enum
@@ -983,7 +1028,12 @@ ApedFormEditorPart >> initializeMainMenu [
 		addUnder: enum
 		key: #'aped-mainMenu-edit'
 		subEnumeration: editEnum.
-		
+
+	APEnumEntrySubEnumeration
+		addUnder: enum
+		key: #'aped-mainMenu-generation'
+		subEnumeration: generationEnum.
+
 	APEnumEntrySubEnumeration
 		addUnder: enum
 		key: #'aped-mainMenu-preview'

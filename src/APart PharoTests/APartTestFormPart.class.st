@@ -1,6 +1,8 @@
 Class {
 	#name : #APartTestFormPart,
 	#superclass : #APart,
+	#traits : 'APTRootPart',
+	#classTraits : 'APTRootPart classTrait',
 	#instVars : [
 		'firstName',
 		'lastName',
@@ -103,6 +105,7 @@ APartTestFormPart >> initializeValues [
 	result := nil.
 	firstName := 'InitialFirstName'.
 	lastName := 'InitialLastName'.
+
 ]
 
 { #category : #'initialize-release' }

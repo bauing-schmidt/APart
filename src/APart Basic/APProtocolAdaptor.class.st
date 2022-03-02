@@ -93,6 +93,8 @@ APProtocolAdaptor >> path: aPath [
 { #category : #accessing }
 APProtocolAdaptor >> privValueUsing: anObject [
 
+	<ignoreForCoverage>
+
 	^ self subclassResponsibility
 ]
 
@@ -146,6 +148,8 @@ APProtocolAdaptor >> setValue: newValue [
 
 { #category : #accessing }
 APProtocolAdaptor >> setValueIn: anObject to: newValue [
+
+	<ignoreForCoverage>
 
 	^ self subclassResponsibility
 ]

@@ -40,6 +40,8 @@ Object >> aPartPerform: aKey [
 { #category : #'*APart Basic-message handling' }
 Object >> aPartPerform: aKey with: aValue [
 
+	<ignoreForCoverage>
+
 	^self perform: aKey with: aValue
 ]
 
@@ -52,13 +54,6 @@ Object >> asAPAspectNamed: aKey [
 { #category : #'*APart Basic' }
 Object >> asAPModelDependentsWith: anObject [
 	^ APModelDependentsCollection with: self with: anObject
-]
-
-{ #category : #'*APart Basic' }
-Object >> asOldValueHolder [
-	"Return a ValueHolder on the receiver"
-
-	^ValueHolder new contents: self
 ]
 
 { #category : #'*APart Basic' }
@@ -86,6 +81,8 @@ Object >> isAPValueAdaptor [
 
 { #category : #'*APart Basic-message handling' }
 Object >> isInPharo [ 
+
+	<ignoreForCoverage>
 
 	^ (Smalltalk at: 'Core.Object' ifAbsent: [ nil ]) isNil
 ]

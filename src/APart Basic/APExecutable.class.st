@@ -122,12 +122,6 @@ APExecutable >> isExpectingArgument [
 	^isExpectingArgument
 ]
 
-{ #category : #private }
-APExecutable >> isMethodDefForActionBody: methodDef [
-
-	^methodDef selector = key
-]
-
 { #category : #API }
 APExecutable >> isRunInParentPart [
 

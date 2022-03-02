@@ -7,6 +7,12 @@ Class {
 	#category : #'APart Form Editor-Element Parts'
 }
 
+{ #category : #visiting }
+ApedCheckBoxPresenterPart class >> accept: anApedVisitor [
+
+	anApedVisitor visitCheckBox: self
+]
+
 { #category : #accessing }
 ApedCheckBoxPresenterPart class >> iconName [
 
@@ -23,6 +29,12 @@ ApedCheckBoxPresenterPart class >> isAbstract [
 ApedCheckBoxPresenterPart class >> label [ 
 
 	^ 'Checkbox'
+]
+
+{ #category : #visiting }
+ApedCheckBoxPresenterPart >> accept: anApedVisitor [
+
+	anApedVisitor visitCheckBox: self
 ]
 
 { #category : #'as yet unclassified' }

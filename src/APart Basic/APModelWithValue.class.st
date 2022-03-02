@@ -5,12 +5,6 @@ Class {
 }
 
 { #category : #converting }
-APModelWithValue >> asOldValueHolder [
-
-	^self
-]
-
-{ #category : #converting }
 APModelWithValue >> dependentBlock: aBlock [
 
 	^ APBlockWithDependents block: aBlock arguments: (Array with: self)
@@ -47,6 +41,8 @@ APModelWithValue >> releaseRequisites [
 { #category : #converting }
 APModelWithValue >> setValue: newValue [
 
+	<ignoreForCoverage>
+
 	self subclassResponsibility
 ]
 
@@ -73,6 +69,8 @@ APModelWithValue >> unsubscribeInterestsFor: anObject [
 
 { #category : #converting }
 APModelWithValue >> value [
+
+	<ignoreForCoverage>
 	^self subclassResponsibility
 ]
 

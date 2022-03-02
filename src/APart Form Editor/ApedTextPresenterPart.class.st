@@ -22,6 +22,12 @@ ApedTextPresenterPart class >> label [
 	^ 'Text input'
 ]
 
+{ #category : #visiting }
+ApedTextPresenterPart >> accept: anApedVisitor [
+
+	anApedVisitor visitText: self
+]
+
 { #category : #accessing }
 ApedTextPresenterPart >> initOnJson: aJsonObj [
 

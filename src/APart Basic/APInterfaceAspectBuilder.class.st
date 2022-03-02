@@ -111,12 +111,6 @@ APInterfaceAspectBuilder >> createMenuBlockForPart: menuPart [
 ]
 
 { #category : #API }
-APInterfaceAspectBuilder >> createMenuFromLabels: labelsCollection values: valuesCollection [
-
-	^[APMenu labelArray: labelsCollection values: valuesCollection]
-]
-
-{ #category : #API }
 APInterfaceAspectBuilder >> createMenuItemsForEnumeration: apEnum under: menuPart [
 
 	| items item submenu |
@@ -182,7 +176,7 @@ APInterfaceAspectBuilder >> createMenuItemsForTagNode: enumTagNode use: menuPart
 { #category : #API }
 APInterfaceAspectBuilder >> createModelForAspect: aKey subject: aPart [
 
-	^APAspect named: aKey for: (APValueAdaptor on: aPart key: aKey)
+	^(APValueAdaptor on: aPart key: aKey) asAPAspectNamed: aKey
 ]
 
 { #category : #API }

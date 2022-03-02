@@ -9,7 +9,7 @@ NumericPatternFormatterLocaleEnGBTest >> locale [
 	^ APartLocaleEnGB new
 ]
 
-{ #category : #tests }
+{ #category : #running }
 NumericPatternFormatterLocaleEnGBTest >> testPrintStringOfFileSizes [
 	| formatter |
 	formatter := APartFileSizeNumericPatternFormatter new
@@ -70,7 +70,7 @@ NumericPatternFormatterLocaleEnGBTest >> test_SharpsOnly_LiteralsOnTheLeft [
 				yourself)
 ]
 
-{ #category : #tests }
+{ #category : #running }
 NumericPatternFormatterLocaleEnGBTest >> test_SharpsOnly_LiteralsOnTheRight [
 	self
 		multiAssert:
@@ -89,7 +89,7 @@ NumericPatternFormatterLocaleEnGBTest >> test_SharpsOnly_LiteralsOnTheRight [
 				yourself)
 ]
 
-{ #category : #tests }
+{ #category : #running }
 NumericPatternFormatterLocaleEnGBTest >> test_ZerosAndSharps [
 	self
 		multiAssert:
@@ -106,7 +106,7 @@ NumericPatternFormatterLocaleEnGBTest >> test_ZerosAndSharps [
 				yourself)
 ]
 
-{ #category : #tests }
+{ #category : #running }
 NumericPatternFormatterLocaleEnGBTest >> test_ZerosOnly [
 	self
 		multiAssert:
@@ -123,7 +123,7 @@ NumericPatternFormatterLocaleEnGBTest >> test_ZerosOnly [
 				yourself)
 ]
 
-{ #category : #tests }
+{ #category : #running }
 NumericPatternFormatterLocaleEnGBTest >> test_ZerosOnly_LiteralsOnBothSides [
 	self
 		multiAssert:
@@ -140,7 +140,7 @@ NumericPatternFormatterLocaleEnGBTest >> test_ZerosOnly_LiteralsOnBothSides [
 				yourself)
 ]
 
-{ #category : #tests }
+{ #category : #running }
 NumericPatternFormatterLocaleEnGBTest >> test_ZerosOnly_LiteralsOnTheLeft [
 	self
 		multiAssert:
@@ -157,7 +157,7 @@ NumericPatternFormatterLocaleEnGBTest >> test_ZerosOnly_LiteralsOnTheLeft [
 				yourself)
 ]
 
-{ #category : #tests }
+{ #category : #running }
 NumericPatternFormatterLocaleEnGBTest >> test_ZerosOnly_LiteralsOnTheRight [
 	self
 		multiAssert:

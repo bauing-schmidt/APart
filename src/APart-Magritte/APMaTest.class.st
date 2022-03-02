@@ -5,7 +5,6 @@ Class {
 		'boolean1',
 		'multipleOptions',
 		'singleOption',
-		'someString',
 		'text1',
 		'text2',
 		'toOne'
@@ -33,9 +32,9 @@ APMaTest >> boolean1Description [
 	<magritteDescription>
 	<generated>
 	^ MABooleanDescription new
-		  aspect: (MAAspectAccessor aspectName: 'boolean1');
 		  accessor: (MANullAccessor uuid:
-					   #( 16 78 206 111 45 118 224 65 22 179 232 195 244 92 106 199 ));
+					   #( 246 74 75 117 2 50 216 138 254 153 117 25 10 12 116 165 ));
+		  aspect: (MAAspectAccessor aspectName: 'boolean1');
 		  label: 'label boolean';
 		  default: true;
 		  yourself
@@ -46,17 +45,17 @@ APMaTest >> defineAspects [
 
 	<generated>
 	^ partInterface description createAllAspectsNamed:
-		  #( text1 text2 boolean1 someString multipleOptions toOne singleOption )
+		  #( text2 boolean1 text1 toOne multipleOptions singleOption )
 ]
 
 { #category : #accessing }
 APMaTest >> initializeDefaultValues [
 
 	<generated>
-	text1 := 'default text'.
 	boolean1 := true.
-	multipleOptions := APartList onPart: self key: #multipleOptions.
+	text1 := 'default text'.
 	toOne := APartList onPart: self key: #toOne.
+	multipleOptions := APartList onPart: self key: #multipleOptions.
 	singleOption := APartList onPart: self key: #singleOption
 ]
 
@@ -88,7 +87,7 @@ APMaTest >> multipleOptionsDescription [
 	<generated>
 	^ MAMultipleOptionDescription new
 		  accessor: (MANullAccessor uuid:
-					   #( 113 36 31 141 138 143 60 4 93 167 242 224 9 70 48 94 ));
+					   #( 229 103 191 197 86 101 204 141 67 148 118 24 5 14 121 138 ));
 		  aspect: (MAAspectAccessor aspectName: 'multipleOptions');
 		  label: 'label multiple options';
 		  priority: 200;
@@ -125,9 +124,9 @@ APMaTest >> singleOptionDescription [
 	<magritteDescription>
 	<generated>
 	^ MASingleOptionDescription new
-		  aspect: (MAAspectAccessor aspectName: 'singleOption');
 		  accessor: (MANullAccessor uuid:
-					   #( 23 13 201 41 106 218 60 174 93 243 103 71 28 243 104 252 ));
+					   #( 229 8 193 27 39 224 184 234 27 123 229 70 184 172 194 96 ));
+		  aspect: (MAAspectAccessor aspectName: 'singleOption');
 		  label: 'label single option';
 		  priority: 200;
 		  optionsTextual: 'MADelegatorAccessor
@@ -140,34 +139,6 @@ MAVariableAccessor
 MAAspectAccessor
 MAChainAccessor
 MAPropertyAccessor';
-		  yourself
-]
-
-{ #category : #accessing }
-APMaTest >> someString [
-
-	<generated>
-	^ someString
-]
-
-{ #category : #accessing }
-APMaTest >> someString: anObject [
-
-	<generated>
-	someString := anObject
-]
-
-{ #category : #'magritte descriptions' }
-APMaTest >> someStringDescription [
-
-	<magritteDescription>
-	<generated>
-	^ MAStringDescription new
-		  accessor: (MANullAccessor uuid:
-					   #( 178 35 34 240 146 245 91 215 178 50 122 25 233 230 17 51 ));
-		  aspect: (MAAspectAccessor aspectName: #someString);
-		  label: 'Some string';
-		  placeholder: 'some placeholder';
 		  yourself
 ]
 
@@ -192,7 +163,7 @@ APMaTest >> text1Description [
 	<generated>
 	^ MAStringDescription new
 		  accessor: (MANullAccessor uuid:
-					   #( 250 141 197 196 28 86 176 218 230 186 42 226 19 210 28 130 ));
+					   #( 247 73 236 216 100 118 204 243 16 185 46 219 24 104 47 156 ));
 		  aspect: (MAAspectAccessor aspectName: 'text1');
 		  label: 'label text 1';
 		  default: 'default text';
@@ -221,7 +192,7 @@ APMaTest >> text2Description [
 	<generated>
 	^ MAStringDescription new
 		  accessor: (MANullAccessor uuid:
-					   #( 4 117 11 186 56 246 5 96 203 185 177 93 152 43 21 97 ));
+					   #( 55 106 10 29 73 106 124 156 154 109 98 8 66 68 3 229 ));
 		  aspect: (MAAspectAccessor aspectName: 'text2');
 		  label: 'label text 2';
 		  placeholder: 'some placeholder';
@@ -248,9 +219,9 @@ APMaTest >> toOneDescription [
 	<magritteDescription>
 	<generated>
 	^ MAToOneRelationDescription new
-		  aspect: (MAAspectAccessor aspectName: 'toOne');
 		  accessor: (MANullAccessor uuid:
-					   #( 84 145 36 162 228 162 123 84 35 67 169 93 150 248 161 106 ));
+					   #( 6 216 201 212 34 139 27 127 66 90 226 168 224 35 225 170 ));
+		  aspect: (MAAspectAccessor aspectName: 'toOne');
 		  label: 'label to one';
 		  priority: 200;
 		  classes: (OrderedCollection new

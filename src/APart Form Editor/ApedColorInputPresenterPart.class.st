@@ -19,6 +19,12 @@ ApedColorInputPresenterPart class >> label [
 	^ 'Color input'
 ]
 
+{ #category : #visiting }
+ApedColorInputPresenterPart >> accept: anApedVisitor [
+
+	anApedVisitor visitColorInput: self
+]
+
 { #category : #preview }
 ApedColorInputPresenterPart >> newPreviewPresenterOn: aPresenter [
 

@@ -11,16 +11,46 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'actionKey',
-		'isCloneForExecution'
+		'isCloneForExecution',
+		'part'
 	],
 	#category : #'APart Basic-Actions'
 }
+
+{ #category : #API }
+APUseCase class >> createAction: anActionKey onPart: aPart [
+
+	| ucInst |
+	ucInst := self onPart: aPart actionKey: anActionKey.
+	aPart partInterface description
+		createAction: anActionKey
+		forUseCase: ucInst.
+	"self pdmRegisterTranslation: anActionKey"
+]
+
+{ #category : #API }
+APUseCase class >> createAllImplementedActionsOnPart: aPart [
+
+	self implementedActionKeys do: [:k |
+		self createAction: k onPart: aPart.
+		k last = $:
+			ifTrue: [ aPart description setExpectArgumentForActionKey: k	].
+	]
+]
 
 { #category : #API }
 APUseCase class >> implementedActionKeys [
 	"Must be overwritten in every subclass"
 
 	^#()
+]
+
+{ #category : #API }
+APUseCase class >> onPart: aPart actionKey: anActionKey [
+	"Mind that part and actionKey are expected to alread be present before #initialize is run in subclasses.
+	Thus, we must use #basicNew instead of #new."
+	
+	^self basicNew initOnPart: aPart actionKey: anActionKey
 ]
 
 { #category : #accessing }
@@ -35,6 +65,12 @@ APUseCase >> actionKey: anObject [
 	actionKey := anObject
 ]
 
+{ #category : #'API Action' }
+APUseCase >> afterPerformAction: anActionKey [
+
+	"redefine in subclasses"
+]
+
 { #category : #API }
 APUseCase >> assertImplementedAction: actionKey [
 
@@ -44,10 +80,19 @@ APUseCase >> assertImplementedAction: actionKey [
 							attribute: actionKey]
 ]
 
+{ #category : #'API Action' }
+APUseCase >> beforePerformAction: anActionKey [
+
+	"redefine in subclasses"
+]
+
 { #category : #API }
 APUseCase >> cloneForExecution [
 	"Use cases that refuse to be cloned on execution have to override this by returning self.
-	It is always safer to have a unique instance for running a use case action, so this is the default."
+	It is always safer to have a unique instance for running a use case action, so this is the default.
+	
+	We use a use-case clone because one use-case can handle multiple actions (with different enablement state).
+	"
 	
 	^ self class basicNew cloneForExecutionFrom: self
 ]
@@ -56,6 +101,7 @@ APUseCase >> cloneForExecution [
 APUseCase >> cloneForExecutionFrom: otherUC [
 	"This call has to be overwritten in subclasses. Missing super call from there will fail because of actionKey remaining nil."
 	
+	self initialize.
 	actionKey := otherUC actionKey.
 	isCloneForExecution := true.
 ]
@@ -78,6 +124,14 @@ APUseCase >> helpTextForUseCaseAction [
 ]
 
 { #category : #initialization }
+APUseCase >> initOnPart: aPart actionKey: anActionKey [
+
+	part := aPart.
+	actionKey := anActionKey.
+
+]
+
+{ #category : #initialization }
 APUseCase >> initialize [
 
 	super initialize.
@@ -88,6 +142,12 @@ APUseCase >> initialize [
 APUseCase >> isCloneForExecution [
 
 	^ isCloneForExecution
+]
+
+{ #category : #accessing }
+APUseCase >> part [
+
+	^ part
 ]
 
 { #category : #'API Action' }

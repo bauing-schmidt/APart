@@ -22,6 +22,12 @@ ApedDropListPresenterPart class >> label [
 	^ 'Drop-down list'
 ]
 
+{ #category : #visiting }
+ApedDropListPresenterPart >> accept: anApedVisitor [
+
+	anApedVisitor visitDropList: self
+]
+
 { #category : #accessing }
 ApedDropListPresenterPart >> hasEntry [
 	^ hasEntry

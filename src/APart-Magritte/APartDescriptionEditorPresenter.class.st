@@ -25,7 +25,7 @@ APartDescriptionEditorPresenter class >> open: aDescription inSpecBackend: backe
 	editor := self newApplication: app.
 	editor partClass: aPartClass.
 	editor description: aDescription.
-	editor openWithSpec.
+	editor open.
 	^ editor
 ]
 

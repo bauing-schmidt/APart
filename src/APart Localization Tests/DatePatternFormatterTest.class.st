@@ -37,14 +37,17 @@ DatePatternFormatterTest >> calendar [
 		offset: -7 hour
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDateAndTimeFormat [
 	self
 		assert: (self calendar format: 'yyyy.MM.dd G ''at'' HH:mm:ss z')
-		equals: '2001.07.04 AD at 12:08:56 PDT'
+		equals: '2001.07.04 AD at 12:08:56 PDT'.
+	self assert: (self calendar format: 'yyyy.MM.dd HH:mm')
+		equals: '2001.07.04 12:08'.
+
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern1 [
 	self
 		assertPattern: 'yyyy.MM.dd G ''at'' HH:mm:ss z'
@@ -54,7 +57,7 @@ DatePatternFormatterTest >> testDatePattern1 [
 		as: '2001.07.04 AD at 12:08:56 PDT'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern10 [
 	self
 		assertPattern: 'YYYY-''W''ww-u'
@@ -63,7 +66,25 @@ DatePatternFormatterTest >> testDatePattern10 [
 		as: '2001-W27-3'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
+DatePatternFormatterTest >> testDatePattern11 [
+
+	self
+		assertPattern: 'yyyy_MM_dd G ''_'' HH:mm:ss z'
+		isCompiledAs:
+			#( 260 25760 514 25760 770 25632 1 25632 25695 25632 1282 25658
+			   1538 25658 1794 25632 4353 )
+		formats: self calendar
+		as: (String streamContents: [ :aStream | 
+				 aStream
+					 nextPutAll: '2001';
+					 nextPut: Character nbsp;
+					 nextPutAll: '07';
+					 nextPut: Character nbsp;
+					 nextPutAll: '04 AD _ 12:08:56 PDT' ])
+]
+
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern2 [
 	self
 		assertPattern: 'EEE, MMM d, ''''yy'
@@ -72,7 +93,7 @@ DatePatternFormatterTest >> testDatePattern2 [
 		as: 'Wed, Jul 4, ''01'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern3 [
 	self
 		assertPattern: 'h:mm a'
@@ -81,7 +102,7 @@ DatePatternFormatterTest >> testDatePattern3 [
 		as: '12:08 PM'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern4 [
 	self
 		assertPattern: 'hh ''o''''clock'' a, zzzz'
@@ -91,7 +112,7 @@ DatePatternFormatterTest >> testDatePattern4 [
 		as: '12 o''clock PM, Pacific Daylight Time'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern5 [
 	self
 		assertPattern: 'K:mm a, z'
@@ -100,7 +121,7 @@ DatePatternFormatterTest >> testDatePattern5 [
 		as: '0:08 PM, PDT'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern6 [
 	self
 		assertPattern: 'yyyyy.MMMMM.dd GGG hh:mm aaa'
@@ -109,7 +130,7 @@ DatePatternFormatterTest >> testDatePattern6 [
 		as: '02001.July.04 AD 12:08 PM'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern7 [
 	self
 		assertPattern: 'yyMMddHHmmssZ'
@@ -118,7 +139,7 @@ DatePatternFormatterTest >> testDatePattern7 [
 		as: '010704120856-0700'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern8 [
 	self
 		assertPattern: 'yyyy-MM-dd''T''HH:mm:ss.SSSZ'
@@ -128,7 +149,7 @@ DatePatternFormatterTest >> testDatePattern8 [
 		as: '2001-07-04T12:08:56.235-0700'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern9 [
 	self
 		assertPattern: 'yyyy-MM-dd''T''HH:mm:ss.SSSXXX'
@@ -138,7 +159,7 @@ DatePatternFormatterTest >> testDatePattern9 [
 		as: '2001-07-04T12:08:56.235-07:00'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern_D [
 	self
 		assertPattern: 'D'
@@ -162,7 +183,7 @@ DatePatternFormatterTest >> testDatePattern_D [
 		as: '0185'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern_E [
 	self
 		assertPattern: 'E'
@@ -186,7 +207,7 @@ DatePatternFormatterTest >> testDatePattern_E [
 		as: 'Wednesday'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern_F [
 	self
 		assertPattern: 'F'
@@ -210,7 +231,7 @@ DatePatternFormatterTest >> testDatePattern_F [
 		as: '1'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern_G [
 	self
 		assertPattern: 'G'
@@ -234,65 +255,67 @@ DatePatternFormatterTest >> testDatePattern_G [
 		as: 'AD'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern_H [
+
 	self
 		assertPattern: 'H'
-		isCompiledAs: #(1281)
+		isCompiledAs: #( 1281 )
 		formats: self calendar
 		as: '12'.
 	self
 		assertPattern: 'HH'
-		isCompiledAs: #(1282)
+		isCompiledAs: #( 1282 )
 		formats: self calendar
 		as: '12'.
 	self
 		assertPattern: 'HHH'
-		isCompiledAs: #(1283)
+		isCompiledAs: #( 1283 )
 		formats: self calendar
 		as: '012'.
 	self
 		assertPattern: 'HHHH'
-		isCompiledAs: #(1284)
+		isCompiledAs: #( 1284 )
 		formats: self calendar
 		as: '12'.
 	self
 		assertPattern: 'H'
-		isCompiledAs: #(1281)
-		formats: (self calendar addSeconds: (3600 * 12) negated)
+		isCompiledAs: #( 1281 )
+		formats: self calendar + (3600 * 12) negated seconds
 		as: '0'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern_K [
+
 	self
 		assertPattern: 'K'
-		isCompiledAs: #(4097)
+		isCompiledAs: #( 4097 )
 		formats: self calendar
 		as: '0'.
 	self
 		assertPattern: 'KK'
-		isCompiledAs: #(4098)
+		isCompiledAs: #( 4098 )
 		formats: self calendar
 		as: '00'.
 	self
 		assertPattern: 'KKK'
-		isCompiledAs: #(4099)
+		isCompiledAs: #( 4099 )
 		formats: self calendar
 		as: '000'.
 	self
 		assertPattern: 'KKKK'
-		isCompiledAs: #(4100)
+		isCompiledAs: #( 4100 )
 		formats: self calendar
 		as: '0'.
 	self
 		assertPattern: 'K'
-		isCompiledAs: #(4097)
-		formats: (self calendar addSeconds: (3600 * 12) negated)
+		isCompiledAs: #( 4097 )
+		formats: self calendar + (3600 * 12) negated asSeconds
 		as: '0'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern_L [
 	self
 		assertPattern: 'L'
@@ -316,7 +339,7 @@ DatePatternFormatterTest >> testDatePattern_L [
 		as: 'July'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern_M [
 	self
 		assertPattern: 'M'
@@ -340,7 +363,7 @@ DatePatternFormatterTest >> testDatePattern_M [
 		as: 'July'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern_S [
 	self
 		assertPattern: 'S'
@@ -364,7 +387,7 @@ DatePatternFormatterTest >> testDatePattern_S [
 		as: '0235'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern_W [
 	self
 		assertPattern: 'W'
@@ -388,7 +411,7 @@ DatePatternFormatterTest >> testDatePattern_W [
 		as: '1'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern_X [
 	self
 		assertPattern: 'X'
@@ -414,7 +437,7 @@ DatePatternFormatterTest >> testDatePattern_X [
 		raise: Error
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern_Y [
 	self
 		assertPattern: 'Y'
@@ -438,7 +461,7 @@ DatePatternFormatterTest >> testDatePattern_Y [
 		as: '2001'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern_Z [
 	self
 		assertPattern: 'Z'
@@ -462,7 +485,7 @@ DatePatternFormatterTest >> testDatePattern_Z [
 		as: '-0700'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern_a [
 	self
 		assertPattern: 'a'
@@ -486,7 +509,7 @@ DatePatternFormatterTest >> testDatePattern_a [
 		as: 'PM'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern_d [
 	self
 		assertPattern: 'd'
@@ -510,65 +533,67 @@ DatePatternFormatterTest >> testDatePattern_d [
 		as: '4'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern_h [
+
 	self
 		assertPattern: 'h'
-		isCompiledAs: #(3841)
+		isCompiledAs: #( 3841 )
 		formats: self calendar
 		as: '12'.
 	self
 		assertPattern: 'hh'
-		isCompiledAs: #(3842)
+		isCompiledAs: #( 3842 )
 		formats: self calendar
 		as: '12'.
 	self
 		assertPattern: 'hhh'
-		isCompiledAs: #(3843)
+		isCompiledAs: #( 3843 )
 		formats: self calendar
 		as: '012'.
 	self
 		assertPattern: 'hhhh'
-		isCompiledAs: #(3844)
+		isCompiledAs: #( 3844 )
 		formats: self calendar
 		as: '12'.
 	self
 		assertPattern: 'h'
-		isCompiledAs: #(3841)
-		formats: (self calendar addSeconds: (3600 * 12) negated)
+		isCompiledAs: #( 3841 )
+		formats: self calendar + (3600 * 12) negated seconds
 		as: '12'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern_k [
+
 	self
 		assertPattern: 'k'
-		isCompiledAs: #(1025)
+		isCompiledAs: #( 1025 )
 		formats: self calendar
 		as: '12'.
 	self
 		assertPattern: 'kk'
-		isCompiledAs: #(1026)
+		isCompiledAs: #( 1026 )
 		formats: self calendar
 		as: '12'.
 	self
 		assertPattern: 'kkk'
-		isCompiledAs: #(1027)
+		isCompiledAs: #( 1027 )
 		formats: self calendar
 		as: '012'.
 	self
 		assertPattern: 'kkkk'
-		isCompiledAs: #(1028)
+		isCompiledAs: #( 1028 )
 		formats: self calendar
 		as: '12'.
 	self
 		assertPattern: 'k'
-		isCompiledAs: #(1025)
-		formats: (self calendar addSeconds: (3600 * 12) negated)
+		isCompiledAs: #( 1025 )
+		formats: self calendar + (3600 * 12) negated seconds
 		as: '24'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern_m [
 	self
 		assertPattern: 'm'
@@ -592,7 +617,7 @@ DatePatternFormatterTest >> testDatePattern_m [
 		as: '8'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern_s [
 	self
 		assertPattern: 's'
@@ -616,7 +641,7 @@ DatePatternFormatterTest >> testDatePattern_s [
 		as: '56'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern_u [
 	self
 		assertPattern: 'u'
@@ -640,7 +665,7 @@ DatePatternFormatterTest >> testDatePattern_u [
 		as: '3'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern_w [
 	self
 		assertPattern: 'w'
@@ -664,7 +689,7 @@ DatePatternFormatterTest >> testDatePattern_w [
 		as: '27'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern_y [
 	self
 		assertPattern: 'y'
@@ -688,7 +713,7 @@ DatePatternFormatterTest >> testDatePattern_y [
 		as: '2001'
 ]
 
-{ #category : #'*APart Localization Tests' }
+{ #category : #running }
 DatePatternFormatterTest >> testDatePattern_z [
 	self
 		assertPattern: 'z'

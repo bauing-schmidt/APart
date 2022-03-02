@@ -192,27 +192,6 @@ APart class >> setterFor: aSymbol [
 	^SettersDict at: aSymbol ifAbsentPut: [(aSymbol , ':') asSymbol]
 ]
 
-{ #category : #'apart pragmas' }
-APart class >> usedActionPragmas [
-	<pragmas: #instance>
-
-	^#(#aPartDefineAction #aPartAction #aPartActionIf: #aPartActionIf:help: #aPartActionCondition )
-]
-
-{ #category : #'apart pragmas' }
-APart class >> usedAspectPragmas [
-	<pragmas: #instance>
-
-	^#(#aPartAspect #aPartAspectEnabled: #aPartDefineAspect #aPartDefineMenu #aPartAspectCondition)
-]
-
-{ #category : #'apart pragmas' }
-APart class >> usedIconPragmas [
-	<pragmas: #class>
-
-	^#(#file:)
-]
-
 { #category : #API }
 APart >> aPartPerform: aKey with: aValue [
 	
@@ -1296,7 +1275,8 @@ APart >> reasonForInactivity [
 { #category : #'API member groups' }
 APart >> reexpose [ 
 
-	exposedMemberGroups valuesDo: [ :each | self exposeMemberGroup: each ]	
+	exposedMemberGroups valuesDo: [ :each | 
+		self exposeMemberGroup: each ]	
 ]
 
 { #category : #'API paths' }
@@ -1769,21 +1749,6 @@ APart >> walkPath: aPath [
 							nextPart subPartOrAspectAt: p ifNone: [
 								^nextPart -> (aPath copyFrom: i to: aPath size)]]] ].
 	^nextPart -> { aPath last}
-]
-
-{ #category : #API }
-APart >> walkPathToTheLastAspect: aPath [
-
-	"walk the path but stop before the last aspect."
-
-	| shortedPathResult lastObject  |
-	
-	shortedPathResult := self walkPath: aPath allButLast.
-	lastObject := shortedPathResult key subPartOrAspectAt: aPath last ifNone: [ ].
-	
-	lastObject supportsAPartRedirection ifTrue: [ ^ shortedPathResult ].
-	^ lastObject -> #()
-	
 ]
 
 { #category : #'API open/close' }

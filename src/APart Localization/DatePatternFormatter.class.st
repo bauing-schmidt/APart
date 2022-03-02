@@ -51,7 +51,7 @@ DatePatternFormatter >> fieldForTag: tag calendar: aDateAndTime [
 	anAssociation := patternIndexToCalendarField at: tag.
 	anAssociation key = #WEEK_YEAR
 		ifTrue: [ | ttag |
-			ttag := DatePatternCompiler datetimePatterns at: 'PATTERN_YEAR'.
+			ttag := datePatternCompiler datetimePatternsAt: 'PATTERN_YEAR'.
 			anAssociation := patternIndexToCalendarField at: ttag ].
 	fieldBlock := anAssociation value.
 	^ fieldBlock value: aDateAndTime
@@ -70,7 +70,7 @@ DatePatternFormatter >> format: aDateAndTime handler: aHandler [
 							| field handleBlock |
 							"Get the handler block."
 							handleBlock := patternIndexToHandler
-								at: tag
+								at: tag + 1
 								ifAbsent: [ [ :handler :value | handler handle: value ] ].
 
 							"Get the field value for the given date."
@@ -108,7 +108,7 @@ DatePatternFormatter >> initializeCalendarFields [
 		at: 5 put: #HOUR_OF_DAY -> [ :aDateAndTime | aDateAndTime hour24];
 		at: 6 put: #MINUTE -> [ :aDateAndTime | aDateAndTime minute];
 		at: 7 put: #SECOND -> [ :aDateAndTime | aDateAndTime second];
-		at: 8 put: #MILLISECOND -> [ :aDateAndTime | aDateAndTime milliseconds];
+		at: 8 put: #MILLISECOND -> [ :aDateAndTime | (aDateAndTime nanoSecond / 1e6 ) truncated ];
 		at: 9 put: #DAY_OF_WEEK -> [ :aDateAndTime | aDateAndTime dayOfWeek];
 		at: 10 put: #DAY_OF_YEAR -> [ :aDateAndTime | aDateAndTime dayOfYear];
 		at: 11 put: #DAY_OF_WEEK_IN_MONTH -> [ :aDateAndTime | aDateAndTime dayOfWeekInMonth];
@@ -128,29 +128,52 @@ DatePatternFormatter >> initializeCalendarFields [
 
 { #category : #initialization }
 DatePatternFormatter >> initializeHandlers [
-	patternIndexToHandler := Dictionary new
-		at: 0 put: [ :handler :value | handler handleEra: value ];
-		at: 1 put: [ :handler :value | handler handleYear: value ];
-		at: 2 put: [ :handler :value | handler handleMonth: value ];
-		at: 3 put: [ :handler :value | handler handleDayOfMonth: value ];
-		at: 4 put: [ :handler :value | handler handleHourOfDay1: value ];
-		at: 5 put: [ :handler :value | handler handleHourOfDay0: value ];
-		at: 6 put: [ :handler :value | handler handleMinute: value ];
-		at: 7 put: [ :handler :value | handler handleSecond: value ];
-		at: 8 put: [ :handler :value | handler handleMillisecond: value ];
-		at: 9 put: [ :handler :value | handler handleDayOfWeek: value ];
-		at: 10 put: [ :handler :value | handler handleDayOfYear: value ];
-		at: 11 put: [ :handler :value | handler handleDayOfWeekInMonth: value ];
-		at: 12 put: [ :handler :value | handler handleWeekOfYear: value ];
-		at: 13 put: [ :handler :value | handler handleWeekOfMonth: value ];
-		at: 14 put: [ :handler :value | handler handleAmPm: value ];
-		at: 15 put: [ :handler :value | handler handleHour1: value ];
-		at: 16 put: [ :handler :value | handler handleHour0: value ];
-		at: 17 put: [ :handler :value | handler handleZoneName: value ];
-		at: 18 put: [ :handler :value | handler handleZoneValue: value ];
-		at: 19 put: [ :handler :value | handler handleYear: value ];
-		at: 20 put: [ :handler :value | handler handleIsoDayOfWeek: value ];
-		at: 21 put: [ :handler :value | handler handleIsoZone: value ];
-		at: 22 put: [ :handler :value | handler handleMonthStandalone: value ];
-		yourself
+
+	patternIndexToHandler := { 
+		                         [ :handler :value | "1" 
+		                         handler handleEra: value ].
+		                         [ :handler :value | "2" 
+		                         handler handleYear: value ].
+		                         [ :handler :value | "3" 
+		                         handler handleMonth: value ].
+		                         [ :handler :value | "4" 
+		                         handler handleDayOfMonth: value ].
+		                         [ :handler :value | "5" 
+		                         handler handleHourOfDay1: value ].
+		                         [ :handler :value | "6" 
+		                         handler handleHourOfDay0: value ].
+		                         [ :handler :value | "7" 
+		                         handler handleMinute: value ].
+		                         [ :handler :value | "8" 
+		                         handler handleSecond: value ].
+		                         [ :handler :value | "9" 
+		                         handler handleMillisecond: value ].
+		                         [ :handler :value | "10" 
+		                         handler handleDayOfWeek: value ].
+		                         [ :handler :value | "11" 
+		                         handler handleDayOfYear: value ].
+		                         [ :handler :value | "12" 
+		                         handler handleDayOfWeekInMonth: value ].
+		                         [ :handler :value | "13" 
+		                         handler handleWeekOfYear: value ].
+		                         [ :handler :value | "14" 
+		                         handler handleWeekOfMonth: value ].
+		                         [ :handler :value | "15" 
+		                         handler handleAmPm: value ].
+		                         [ :handler :value | "16" 
+		                         handler handleHour1: value ].
+		                         [ :handler :value | "17" 
+		                         handler handleHour0: value ].
+		                         [ :handler :value | "18" 
+		                         handler handleZoneName: value ].
+		                         [ :handler :value | "19" 
+		                         handler handleZoneValue: value ].
+		                         [ :handler :value | "20" 
+		                         handler handleYear: value ].
+		                         [ :handler :value | "21" 
+		                         handler handleIsoDayOfWeek: value ].
+		                         [ :handler :value | "22" 
+		                         handler handleIsoZone: value ].
+		                         [ :handler :value | 
+		                         handler handleMonthStandalone: value ] } "0"
 ]

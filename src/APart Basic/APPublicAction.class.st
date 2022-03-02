@@ -11,15 +11,6 @@ Class {
 }
 
 { #category : #API }
-APPublicAction >> createRecordedInteraction [
-
-	^(APRecordedInteraction action)
-		key: key;
-		value: self;
-		yourself
-]
-
-{ #category : #API }
 APPublicAction >> isRawAction [
 
 	^ true

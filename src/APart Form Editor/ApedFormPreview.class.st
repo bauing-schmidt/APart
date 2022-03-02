@@ -69,6 +69,12 @@ ApedFormPreview >> ctrlKeyValue [
 ]
 
 { #category : #'as yet unclassified' }
+ApedFormPreview >> defaultLayout [ 
+
+	^ self layout
+]
+
+{ #category : #'as yet unclassified' }
 ApedFormPreview >> formPart [ 
 
 	^ self partInterface part parentPart formPart

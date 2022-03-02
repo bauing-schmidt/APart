@@ -12,7 +12,7 @@ OrderedCollectionWithDependants >> addAll: aCollection [
 
 	| result |
 	
-	result := super addAll: aCollection .
+	result := super addAll: aCollection.
 	self dependents ifNotEmpty: [self changed: #appendCollection: with: aCollection size].
 	^ result
 ]
@@ -54,14 +54,4 @@ OrderedCollectionWithDependants >> removeLast [
 	result := super removeLast.
 	self dependents ifNotEmpty: [self changed: #remove: with: self size+1].
 	^ result
-]
-
-{ #category : #adding }
-OrderedCollectionWithDependants >> setCollection: anArray limit: aSmallInteger [
-
-	self flag: #todo "remove me"
-	
-	"collection := anArray.
-	limit := aSmallInteger.
-	collectionSize := collection size"
 ]

@@ -16,6 +16,12 @@ ApedScrollLayoutPart class >> layoutName [
 	^'ScrollLayout'
 ]
 
+{ #category : #accessing }
+ApedScrollLayoutPart >> accept: anApedVisitor [
+
+	anApedVisitor visitScrollLayout: self
+]
+
 { #category : #'initialize-release' }
 ApedScrollLayoutPart >> childClass [ 
 

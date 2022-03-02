@@ -107,7 +107,20 @@ APartLocale >> localeName [
 
 { #category : #utilities }
 APartLocale >> longDayOfWeek: value [
-	self subclassResponsibility
+
+	self aPartRegisterTranslation: 'Monday'.
+	self aPartRegisterTranslation: 'Tuesday'.
+	self aPartRegisterTranslation: 'Wednesday'.
+	self aPartRegisterTranslation: 'Thursday'.
+	self aPartRegisterTranslation: 'Friday'.
+	self aPartRegisterTranslation: 'Saturday'.
+	self aPartRegisterTranslation: 'Sunday'.
+
+	^ GetTextTranslator aPartTranslate: (#(Monday Tuesday Wednesday Thursday Friday Saturday Sunday)
+		at: value)
+		for: self localeID
+
+		
 ]
 
 { #category : #utilities }
@@ -215,4 +228,10 @@ APartLocale >> shortMonthName: value [
 { #category : #utilities }
 APartLocale >> shortMonthNames [
 	self subclassResponsibility
+]
+
+{ #category : #'system primitives' }
+APartLocale >> weekStart [
+
+	^ 1
 ]

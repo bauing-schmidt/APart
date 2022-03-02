@@ -5,6 +5,13 @@ Class {
 }
 
 { #category : #building }
+GtkAPartTreeTableAdapter >> addModelTo: gtkTreeView [
+
+	(self identityHash ->widget) traceCrAs: #addModelTo.
+	^ super addModelTo: gtkTreeView.
+]
+
+{ #category : #building }
 GtkAPartTreeTableAdapter >> connectToGtkSignals: gtkWidget [
 	
 	gtkWidget connectSelectionChanged: [ 
@@ -23,22 +30,26 @@ GtkAPartTreeTableAdapter >> connectToGtkSignals: gtkWidget [
 
 { #category : #private }
 GtkAPartTreeTableAdapter >> doRecreateStore: gtkTreeView [
-	
+
 	gtkTreeView model: (self newTreeStoreFrom: self items).
 
 	"if we are working with Apart tree model, we want to restore the nodes expansion state"
 	(self items noneSatisfy: [ :each | each isKindOf: APTreeNodeModel ]) 
 		ifTrue: [ ^ true ].
-		
+	
+	GRunLoop forceDefer: [ 
+		widget ifNotNil: [ 
 	self items ifNotEmpty: [
 		self recalculatePaths: self rootNode].
-	self expandOpenNodes: self items.
+	self expandOpenNodes: self items. ] ].
 ]
 
 { #category : #releasing }
 GtkAPartTreeTableAdapter >> unsubscribe [
 
 	| aSelection |
+	
+	(self identityHash ->widget) traceCrAs: #unsubscribe.
 
 	self unsubscirbeSelectionMode.
 	aSelection := self presenter selection observablePropertyNamed: #selection.

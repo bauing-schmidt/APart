@@ -28,6 +28,8 @@ APConditionBase class >> named: aName [
 { #category : #API }
 APConditionBase >> & next [
 
+	<ignoreForCoverage>
+
 	self subclassResponsibility
 ]
 
@@ -45,6 +47,8 @@ APConditionBase >> asStatefulCondition [
 
 { #category : #API }
 APConditionBase >> booleanValue [
+
+	<ignoreForCoverage>
 
 	self subclassResponsibility
 ]

@@ -68,12 +68,23 @@ APartDescription >> actionsRedirected [
 	^ actions select: #isRedirected
 ]
 
-{ #category : #'API actions' }
+{ #category : #private }
 APartDescription >> addAction: anAction [ 
 
 	self checkForActionRedefinition: anAction key.
-	^ actions at: anAction key
-		put: anAction
+	^ self addActionWithoutRedefinitionCheck: anAction
+]
+
+{ #category : #private }
+APartDescription >> addActionWithoutRedefinitionCheck: anAction [ 
+
+	^ actions at: anAction key put: anAction
+]
+
+{ #category : #private }
+APartDescription >> addAspectWithoutRedefinitionCheck: anAspect as: aKey [
+
+	^aspects at: aKey put: anAspect
 ]
 
 { #category : #'API actions' }
@@ -214,31 +225,25 @@ APartDescription >> createAction: aKey do: anActionBlock if: aCondition addEnumE
 { #category : #'API actions' }
 APartDescription >> createAction: aKey do: anActionBlock if: aCondition helpText: aHelpText [
 
-	self checkForActionRedefinition: aKey.
-	^actions at: aKey
-		put: (APPublicAction
-				key: aKey
-				do: anActionBlock
-				if: aCondition
-				helpText: aHelpText)
+	^ self addAction: (APPublicAction
+		key: aKey
+		do: anActionBlock
+		if: aCondition
+		helpText: aHelpText)
 ]
 
 { #category : #'API actions' }
 APartDescription >> createAction: aKey forUseCase: aUseCase [
 
-	self checkForActionRedefinition: aKey.
-	^actions at: aKey
-		put: (APUseCaseAction
-				key: aKey
-				useCase: aUseCase)
+	^ self addAction: (APUseCaseAction
+		key: aKey
+		useCase: aUseCase)
 ]
 
 { #category : #'API actions' }
 APartDescription >> createAction: aKey redirectTo: aPartPath [
 
-	self checkForActionRedefinition: aKey.
-	^ actions at: aKey
-		put: (APRedirectedAction on: part key: aKey path: aPartPath)
+	^ self addAction: (APRedirectedAction on: part key: aKey path: aPartPath)
 ]
 
 { #category : #'API actions' }
@@ -276,8 +281,6 @@ APartDescription >> createAction: aKey withArgumentDo: anActionBlock if: aCondit
 APartDescription >> createAction: aKey withArgumentDo: anActionBlock if: aCondition helpText: aHelpText [
 
 	| anAction | 
-
-	self checkForActionRedefinition: aKey.
 	
 	anAction := APPublicAction
 				key: aKey
@@ -288,8 +291,7 @@ APartDescription >> createAction: aKey withArgumentDo: anActionBlock if: aCondit
 	anAction checkConsistencyForPart: part
 		ifNotDo: [:msg | self aPartError: #inconsistentAction text: msg].
 
-	^actions at: aKey
-		put: anAction
+	^ self addAction: anAction
 ]
 
 { #category : #'API aspects' }
@@ -312,7 +314,7 @@ APartDescription >> createAspectNamed: aKey [
 APartDescription >> createAspectNamed: aKey redirectTo: aPartPath [
 
 	self checkForAspectRedefinition: aKey.
-	^self defineAspectWithoutRedefinitionCheck: (self interface aspectBuilder
+	^self addAspectWithoutRedefinitionCheck: (self interface aspectBuilder
 				createModelForAspect: aKey
 				subject: part
 				redirectTo: aPartPath) as: aKey
@@ -334,27 +336,6 @@ APartDescription >> createRedirectionAspectForSubpartAt: aKey [
 			aspectTarget partInterface aspectBuildRedirectionKey
 				ifNotNil:
 					[ :k | self createAspectNamed: aKey redirectTo: (Array with: aKey with: k) ] ]
-]
-
-{ #category : #'API actions' }
-APartDescription >> defineAction: anAction [
-
-	"This uses an existing action and does not create some. That's why it is not named 'createAction:'"
-
-	self checkForActionRedefinition: anAction key.
-	^self defineActionWithoutRedefinitionCheck: anAction
-]
-
-{ #category : #private }
-APartDescription >> defineActionWithoutRedefinitionCheck: anAction [
-
-	^actions at: anAction key put: anAction
-]
-
-{ #category : #'API aspects' }
-APartDescription >> defineAspectWithoutRedefinitionCheck: anAspect as: aKey [
-
-	^aspects at: aKey put: anAspect
 ]
 
 { #category : #'API aspects' }
@@ -494,6 +475,8 @@ APartDescription >> part [
 { #category : #private }
 APartDescription >> privActions [ 
 
+	<ignoreForCoverage>
+
 	^ actions
 ]
 
@@ -525,14 +508,6 @@ APartDescription >> putTrigger: aTriggerActionWithKey [
 	^actions at: aTriggerActionWithKey key put: aTriggerActionWithKey
 ]
 
-{ #category : #'API actions' }
-APartDescription >> registerAction: anAction as: aKey [ 
-
-	self checkForActionRedefinition: aKey.
-	^ actions at: aKey
-		put: anAction
-]
-
 { #category : #enumerating }
 APartDescription >> release [
 
@@ -544,7 +519,7 @@ APartDescription >> release [
 { #category : #'API actions' }
 APartDescription >> setExpectArgumentForActionKey: anActionKey [
 
-	self actionAt: anActionKey ifPresent: [:a | a expectArgument].
+	self actionAt: anActionKey ifPresent: [:a | a expectArgument ].
 
 ]
 
